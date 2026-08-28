@@ -1,0 +1,14 @@
+.robot-sequence {
+  display: block;
+  max-inline-size: 100%;
+  line-height: 0;
+}
+
+.robot-sequence__frame {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
