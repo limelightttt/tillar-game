@@ -7,8 +7,10 @@ import { describe, expect, it } from "vitest";
 import { AppRouter } from "@/app/router/AppRouter";
 import { GameScoreboard } from "@/widgets/game-scoreboard";
 import { QuestionBoard } from "@/widgets/question-board";
+import { WordPuzzleBoard } from "@/widgets/word-puzzle-board";
 import { createEmptyAnswerStats } from "@/entities/game-session";
 import { pictureQuestions } from "@/entities/question";
+import { createLetterTiles, wordPuzzles } from "@/entities/word-puzzle";
 
 function renderRoute(path: string) {
   return renderToStaticMarkup(
@@ -16,9 +18,40 @@ function renderRoute(path: string) {
   );
 }
 
-describe("two-pictures application", () => {
+describe("application rendering", () => {
   it("renders the game setup on the home route", () => {
-    expect(renderRoute("/")).toContain("Как играем?");
+    const markup = renderRoute("/");
+
+    expect(markup).toContain("Как играем?");
+    expect(markup).toContain("Две картинки");
+    expect(markup).toContain("Четыре картинки / слово");
+  });
+
+  it("renders the four-pictures word board and letter controls", () => {
+    const puzzle = wordPuzzles[0];
+
+    if (!puzzle) throw new Error("Expected at least one word puzzle fixture");
+
+    const markup = renderToStaticMarkup(
+      createElement(WordPuzzleBoard, {
+        botAnswer: null,
+        elapsedResponseTimeMs: 2_400,
+        letterTiles: createLetterTiles(puzzle, () => 0.5),
+        mode: "solo",
+        onClear: () => undefined,
+        onRemoveTile: () => undefined,
+        onSelectTile: () => undefined,
+        onSubmit: () => undefined,
+        playerAnswer: null,
+        puzzle,
+        selectedTileIds: [],
+        status: "playing",
+      }),
+    );
+
+    expect(markup).toContain("Четыре визуальные подсказки");
+    expect(markup).toContain("Собери все буквы");
+    expect(markup).toContain(puzzle.prompt);
   });
 
   it("renders an active question board", () => {
@@ -39,6 +72,15 @@ describe("two-pictures application", () => {
   });
 
   it("renders the solo scoreboard", () => {
+    const stats = {
+      ...createEmptyAnswerStats(),
+      answered: 3,
+      correct: 2,
+      errors: 1,
+      bestStreak: 2,
+      totalResponseTimeMs: 9_000,
+      averageResponseTimeMs: 3_000,
+    };
     const markup = renderToStaticMarkup(
       createElement(GameScoreboard, {
         botLives: 3,
@@ -46,10 +88,11 @@ describe("two-pictures application", () => {
         currentRound: 4,
         mode: "solo",
         playerLives: 3,
-        playerStats: { ...createEmptyAnswerStats(), answered: 3, correct: 2, errors: 1 },
+        playerStats: stats,
       }),
     );
 
     expect(markup).toContain("Верно");
+    expect(markup).toContain("3,0 с");
   });
 });
