@@ -74,7 +74,7 @@ export function ResultPage() {
       gameLabel="Игра 01 · Две картинки"
       isSolo={isSolo}
       playerStats={playerStats}
-      robotVariant={tone === "success" ? "jump" : tone === "danger" ? "squat" : "idle"}
+      robotVariant={tone === "success" ? "celebrate" : tone === "danger" ? "encourage" : "idle"}
       statusLabel={isSolo ? "Сессия завершена" : "Результат дуэли"}
       subtitle={subtitle}
       title={title}

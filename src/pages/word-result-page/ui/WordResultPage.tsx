@@ -74,7 +74,7 @@ export function WordResultPage() {
       gameLabel="Игра 02 · Четыре картинки / слово"
       isSolo={isSolo}
       playerStats={playerStats}
-      robotVariant={tone === "success" ? "jump" : tone === "danger" ? "squat" : "idle"}
+      robotVariant={tone === "success" ? "celebrate" : tone === "danger" ? "encourage" : "idle"}
       statusLabel={isSolo ? "Сессия завершена" : "Результат бот-дуэли"}
       subtitle={subtitle}
       title={title}

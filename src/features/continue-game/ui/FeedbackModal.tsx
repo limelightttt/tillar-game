@@ -44,7 +44,7 @@ export function FeedbackModal({
             decorative
             className="w-[8.75rem] translate-y-2"
             key={`${question.id}-${feedback.kind}`}
-            variant={correct ? "jump" : "squat"}
+            variant={correct ? "celebrate" : "encourage"}
           />
         </div>
 
