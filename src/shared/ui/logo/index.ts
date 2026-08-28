@@ -1,0 +1,1 @@
+export { TillarLogo } from "./TillarLogo";

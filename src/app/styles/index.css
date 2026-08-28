@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #f7f6fb;
+  --color-foreground: #1c1930;
+  --color-ink: #171427;
+  --color-muted: #777389;
+  --color-line: #e8e5f0;
+  --color-soft: #f0eef7;
+  --color-primary: #7557e8;
+  --color-primary-strong: #6042d5;
+  --color-primary-soft: #eee9ff;
+  --color-cyan: #12cbe4;
+  --color-cyan-soft: #dffaff;
+  --color-success: #21b66f;
+  --color-success-soft: #e3f9ee;
+  --color-danger: #f25768;
+  --color-danger-soft: #fff0f2;
+  --color-warning: #ffb320;
+  --font-sans: "Manrope", "Segoe UI", Arial, sans-serif;
+}
+
+:root {
+  color: #1c1930;
+  background: #f7f6fb;
+  font-family: "Manrope", "Segoe UI", Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --motion-fast: 140ms;
+  --motion-standard: 240ms;
+  --motion-slow: 520ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: #f7f6fb;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 5% 12%, rgb(18 203 228 / 0.12), transparent 22rem),
+    radial-gradient(circle at 94% 4%, rgb(117 87 232 / 0.14), transparent 28rem), #f7f6fb;
+  color: #1c1930;
+  line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+::selection {
+  background: rgb(117 87 232 / 0.24);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+dialog::backdrop {
+  animation: backdrop-in var(--motion-standard) var(--motion-ease);
+}
+
+.app-noise {
+  position: relative;
+  isolation: isolate;
+}
+
+.app-noise::before {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  opacity: 0.28;
+  background-image: radial-gradient(rgb(28 25 48 / 0.16) 0.55px, transparent 0.55px);
+  background-size: 7px 7px;
+  mask-image: linear-gradient(to bottom, black, transparent 74%);
+}
+
+.safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.animate-rise {
+  animation: rise-in var(--motion-slow) var(--motion-ease) both;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
