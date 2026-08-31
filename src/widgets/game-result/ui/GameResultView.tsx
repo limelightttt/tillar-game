@@ -65,7 +65,7 @@ function PlayerResultRow({
   stats: GameResultStats;
 }) {
   return (
-    <div className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-2.5 rounded-[1.15rem] bg-soft/75 p-3.5 sm:gap-3">
+    <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2.5 rounded-[1.15rem] bg-soft/75 p-3.5 sm:grid-cols-[minmax(0,1fr)_auto_auto_auto] sm:gap-3">
       <div className="flex min-w-0 items-center gap-2.5">
         <span
           className={cn(
@@ -87,7 +87,7 @@ function PlayerResultRow({
       <span className="flex items-center gap-1 text-sm font-black text-danger">
         <X aria-hidden="true" className="size-3.5" /> {stats.errors}
       </span>
-      <span className="flex items-center gap-1 text-xs font-bold text-muted">
+      <span className="col-span-3 flex items-center justify-end gap-1 text-xs font-bold text-muted sm:col-span-1">
         <Clock3 aria-hidden="true" className="size-3.5" />
         {stats.answered > 0 ? formatSeconds(stats.averageResponseTimeMs) : "—"}
       </span>
@@ -165,6 +165,7 @@ export function GameResultView({
               <RobotSequence
                 decorative
                 className="relative drop-shadow-[0_20px_28px_rgba(36,28,70,0.24)]"
+                startDelayMs={520}
                 variant={robotVariant}
               />
             </div>

@@ -40,7 +40,7 @@ export function Modal({
     <dialog
       aria-label={label}
       className={cn(
-        "m-auto max-h-[calc(100dvh-1rem)] w-[min(92vw,34rem)] overflow-y-auto overscroll-contain rounded-[2rem] border-0 bg-transparent p-0 text-foreground backdrop:bg-ink/55 backdrop:backdrop-blur-sm sm:max-h-[calc(100dvh-2rem)]",
+        "modal-dialog m-auto max-h-[calc(100dvh-1rem)] w-[min(92vw,34rem)] overflow-y-auto overscroll-contain rounded-[2rem] border-0 bg-transparent p-0 text-foreground backdrop:bg-ink/55 backdrop:backdrop-blur-sm sm:max-h-[calc(100dvh-2rem)]",
         className,
       )}
       ref={dialogRef}
@@ -49,7 +49,7 @@ export function Modal({
         if (dismissible) onClose?.();
       }}
     >
-      <div className="relative overflow-hidden rounded-[2rem] border border-white/70 bg-white p-6 shadow-[0_30px_80px_-30px_rgba(24,20,52,0.55)] sm:p-8">
+      <div className="modal-surface relative overflow-hidden rounded-[2rem] border border-white/70 bg-white p-6 shadow-[0_30px_80px_-30px_rgba(24,20,52,0.55)] sm:p-8">
         {dismissible ? (
           <button
             aria-label="Закрыть"

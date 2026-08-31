@@ -138,7 +138,7 @@ export function GameScoreboard({
       aria-label="Счёт дуэли"
       className="rounded-[1.55rem] border border-line bg-soft/75 p-2.5 sm:p-3"
     >
-      <div className="grid grid-cols-2 gap-2.5">
+      <div className="grid gap-2.5 sm:grid-cols-2">
         <DuelPlayerCard
           actor="player"
           label="Вы"

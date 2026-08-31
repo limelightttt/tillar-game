@@ -18,7 +18,8 @@ Both games share one responsive platform shell, category selector, solo mode, cl
 - bot duel demonstrating three lives, eight rounds, score and response-time tiebreak rules, without educational popups;
 - common result UI and typed analytics seams for both games;
 - mobile-first layout from 320 px, visible focus states, 44 px targets, reduced-motion handling, and scroll-safe dialogs;
-- semantic robot states: `idle`, `celebrate`, and `encourage`, rendered only after frames decode to prevent blank-frame flicker.
+- semantic robot states: `idle`, `celebrate`, and `encourage`, with action frames prepared after the first paint and rendered only after decoding to prevent delayed first reactions and blank-frame flicker;
+- one square mascot viewport across idle, success, error, and result contexts, so differently cropped source sequences keep a consistent visual size on mobile and desktop.
 
 The browser client is fully usable from local content. Real two-user online play is **not** simulated or presented as production multiplayer.
 
@@ -79,4 +80,4 @@ Runtime assets are copied from the supplied archives and kept as transparent 2D 
 - `encourage`: the authored 70-slot squat/smile timeline, 3.5 s total;
 - `idle`: one static neutral frame; no loop or invented floating motion.
 
-The renderer keeps a stable poster until every active sequence frame is decoded, then draws to one fixed transparent canvas. This prevents `img.src` churn, empty-frame flashing, and variable-crop layout jumps. Decoded-frame cache entries are weakly held so the browser can reclaim memory after components unmount.
+The renderer prepares the two action sequences in the background after the first application paint, keeps a stable poster until every active frame is decoded, and then draws to one fixed transparent canvas. A shared `512×512` presentation stage normalizes the taller jump crops without distorting them. Poster and canvas visibility are mutually exclusive, actions are one-shot, and reduced-motion users receive only the configured static frame without downloading the action sequences during application startup.

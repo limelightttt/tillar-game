@@ -242,7 +242,7 @@ Legacy aliases `jump` and `squat` remain only for compatibility. New callers sho
 Animation implementation is split deliberately:
 
 - `robot-sequence.model.ts` owns frame metadata, timelines, timings, stages, and bottom-center placement;
-- `robot-frame-loader.ts` decodes every unique frame and maintains decoded/pending caches;
+- `robot-frame-loader.ts` decodes every unique frame and maintains decoded, pending, and prepared-sequence caches;
 - `RobotSequence.tsx` owns poster/canvas switching, `requestAnimationFrame`, replay, completion, and reduced-motion behavior;
 - `robot-sequence.css` keeps poster and canvas in the same stable stage;
 - `public/assets/robot` owns the actual PNGs.
@@ -252,7 +252,9 @@ Preserve these safeguards:
 - action animations are one-shot by default; do not enable looping without an explicit UX requirement;
 - a stable poster remains visible until every active unique frame is decoded;
 - frames are drawn into one fixed transparent canvas rather than swapping `img.src` every frame;
-- variable jump crops stay bottom-centered at one source-pixel scale;
+- idle, jump, and squat render into one `512×512` presentation stage; variable jump crops stay bottom-centered at one constant per-sequence scale without distortion;
+- normal-motion action sequences begin preparing after the application's first paint so the first visible feedback does not wait on the network; reduced-motion startup must not preload them;
+- feedback reactions start only after the modal entrance, and result reactions start only after the result-card entrance;
 - a completed one-shot holds its final rendered frame; do not invent a victory-to-floating-idle transition without an approved idle asset/behavior;
 - use `replayKey` to intentionally replay a mounted sequence and `onComplete` when state must react to completion;
 - `prefers-reduced-motion` must always receive the configured static reduced-motion frame and completion behavior;

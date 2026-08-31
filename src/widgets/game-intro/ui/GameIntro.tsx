@@ -70,7 +70,7 @@ export function GameIntro({ gameId }: GameIntroProps) {
   const content = introContent[gameId];
 
   return (
-    <section className="relative isolate min-h-[34rem] overflow-hidden rounded-[2.25rem] bg-ink px-6 pb-4 pt-7 text-white shadow-[0_28px_80px_-34px_rgba(24,20,52,0.72)] sm:px-9 sm:pt-9 lg:min-h-[42rem]">
+    <section className="relative isolate min-h-[38rem] overflow-hidden rounded-[2.25rem] bg-ink p-6 text-white shadow-[0_28px_80px_-34px_rgba(24,20,52,0.72)] sm:min-h-[42rem] sm:p-9">
       <div className="absolute -right-20 -top-20 size-72 rounded-full bg-primary/45 blur-3xl" />
       <div className="absolute -bottom-32 -left-24 size-80 rounded-full bg-cyan/25 blur-3xl" />
       <div
@@ -81,42 +81,51 @@ export function GameIntro({ gameId }: GameIntroProps) {
         }}
       />
 
-      <div className="relative z-10">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-white/75 backdrop-blur">
-          <span className="size-2 rounded-full bg-cyan shadow-[0_0_16px_rgba(18,203,228,0.9)]" />
-          Игра {content.code} · {content.eyebrow}
+      <div
+        className="animate-content-swap relative z-10 flex min-h-[34rem] flex-col sm:min-h-[37.5rem]"
+        key={gameId}
+      >
+        <div>
+          <div className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-white/75 backdrop-blur">
+            <span className="size-2 shrink-0 rounded-full bg-cyan shadow-[0_0_16px_rgba(18,203,228,0.9)]" />
+            <span className="truncate">
+              Игра {content.code} · {content.eyebrow}
+            </span>
+          </div>
+
+          <h1 className="text-balance max-w-xl text-[clamp(2.5rem,6vw,4.5rem)] font-black leading-[0.94] tracking-[-0.06em]">
+            {content.headline}
+          </h1>
+          <p className="mt-5 max-w-md text-base leading-relaxed text-white/62 sm:text-lg">
+            {content.description}
+          </p>
+
+          <ul className="mt-7 flex flex-wrap gap-2.5" aria-label="Особенности игры">
+            {content.features.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <li
+                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] px-3 text-xs font-bold text-white/72 backdrop-blur"
+                  key={feature.text}
+                >
+                  <Icon aria-hidden="true" className="size-3.5 text-cyan" />
+                  {feature.text}
+                </li>
+              );
+            })}
+          </ul>
         </div>
 
-        <h1 className="text-balance max-w-xl text-[clamp(2.5rem,7vw,5rem)] font-black leading-[0.94] tracking-[-0.065em]">
-          {content.headline}
-        </h1>
-        <p className="mt-5 max-w-md text-base leading-relaxed text-white/62 sm:text-lg">
-          {content.description}
-        </p>
-
-        <ul className="mt-7 flex flex-wrap gap-2.5" aria-label="Особенности игры">
-          {content.features.map((feature) => {
-            const Icon = feature.icon;
-            return (
-              <li
-                className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] px-3 text-xs font-bold text-white/72 backdrop-blur"
-                key={feature.text}
-              >
-                <Icon aria-hidden="true" className="size-3.5 text-cyan" />
-                {feature.text}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-
-      <div className="pointer-events-none absolute bottom-[-3rem] right-[-2rem] z-10 w-[min(62%,22rem)] sm:bottom-[-4rem] sm:right-1 lg:w-[24rem]">
-        <div className="absolute bottom-14 left-1/2 h-8 w-2/3 -translate-x-1/2 rounded-[50%] bg-black/40 blur-xl" />
-        <RobotSequence
-          decorative
-          className="drop-shadow-[0_24px_32px_rgba(0,0,0,0.36)]"
-          variant="idle"
-        />
+        <div className="relative mt-8 min-h-56 flex-1 sm:min-h-64">
+          <div className="absolute bottom-1 left-1/2 h-8 w-44 -translate-x-1/2 rounded-[50%] bg-black/40 blur-xl sm:left-auto sm:right-8 sm:translate-x-0" />
+          <div className="pointer-events-none absolute bottom-0 left-1/2 w-56 -translate-x-1/2 sm:left-auto sm:right-0 sm:w-64 sm:translate-x-0">
+            <RobotSequence
+              decorative
+              className="drop-shadow-[0_24px_32px_rgba(0,0,0,0.36)]"
+              variant="idle"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

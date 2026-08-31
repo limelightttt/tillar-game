@@ -115,6 +115,18 @@ dialog::backdrop {
   animation: rise-in var(--motion-slow) var(--motion-ease) both;
 }
 
+.animate-content-swap {
+  animation: content-swap-in var(--motion-standard) var(--motion-ease) both;
+}
+
+.modal-dialog[open] {
+  animation: modal-in var(--motion-standard) var(--motion-ease) both;
+}
+
+.modal-dialog[open] > .modal-surface {
+  animation: modal-surface-in var(--motion-standard) var(--motion-ease) both;
+}
+
 @keyframes rise-in {
   from {
     opacity: 0;
@@ -129,6 +141,35 @@ dialog::backdrop {
 @keyframes backdrop-in {
   from {
     opacity: 0;
+  }
+}
+
+@keyframes content-swap-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-surface-in {
+  from {
+    transform: translateY(12px) scale(0.985);
+  }
+  to {
+    transform: translateY(0) scale(1);
   }
 }
 

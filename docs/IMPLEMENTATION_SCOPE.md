@@ -43,11 +43,22 @@ Production delivery also references TILLAR accounts, content administration, per
 ### Robot animation audit
 
 - action names describe product intent: `celebrate` and `encourage`;
+- both supplied action sequences start preparing after the first application paint, eliminating the first-error network/decode stall in the normal flow;
 - active unique frames finish decoding before playback begins;
 - one stable transparent canvas avoids per-frame `img.src` swaps and blank flashes;
-- variable-size jump frames use a fixed stage and bottom-center pivot;
+- idle, jump, and squat assets share one square presentation stage; variable-size jump frames use one constant scale and a bottom-center pivot;
+- feedback modals finish their entrance before a one-shot reaction begins, while result reactions wait for the result-card entrance;
 - action sequences are one-shot and respect `prefers-reduced-motion`;
 - timings are 960 ms for celebration and 3.5 s for encouragement.
+
+The TILLAR specification does not prescribe mascot animations. Their semantic placement and choreography are UI implementation decisions approved through the product review; duel rounds still omit educational popups and mascot reactions so competition remains fast.
+
+### Responsive UI audit
+
+- the home hero reserves a separate in-flow mascot region, so switching products cannot place copy beneath the robot;
+- feedback and result mascots use bounded square slots instead of overflowing differently shaped source canvases;
+- duel score cards stack at the 320 px baseline and return to two columns from the small breakpoint;
+- dense duel result rows move response time to a second mobile row and restore the compact desktop grid at the small breakpoint.
 
 ## Explicit backend boundary
 
