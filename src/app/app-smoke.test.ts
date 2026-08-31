@@ -50,7 +50,7 @@ describe("application rendering", () => {
     );
 
     expect(markup).toContain("Четыре визуальные подсказки");
-    expect(markup).toContain("Собери все буквы");
+    expect(markup).toContain("Проверить слово");
     expect(markup).toContain(puzzle.prompt);
   });
 
@@ -67,7 +67,6 @@ describe("application rendering", () => {
       }),
     );
 
-    expect(markup).toContain("Выбери одну картинку");
     expect(markup).toContain(pictureQuestions[0].prompt);
   });
 

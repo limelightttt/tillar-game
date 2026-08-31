@@ -1,4 +1,4 @@
-import { Bot, Check, Clock3, Sparkles, X } from "lucide-react";
+import { Bot, Check, Clock3, X } from "lucide-react";
 
 import { PictureChoices } from "@/features/answer-picture";
 import {
@@ -111,10 +111,6 @@ export function QuestionBoard({
       </div>
 
       <div className="mb-5 sm:mb-6">
-        <p className="mb-2 flex items-center gap-2 text-[0.67rem] font-black uppercase tracking-[0.15em] text-muted">
-          <Sparkles aria-hidden="true" className="size-3.5 text-primary" />
-          Выбери одну картинку
-        </p>
         <h1 className="text-balance max-w-4xl text-2xl font-black leading-tight tracking-[-0.045em] text-foreground sm:text-3xl lg:text-[2.15rem]">
           {question.prompt}
         </h1>
@@ -130,12 +126,6 @@ export function QuestionBoard({
         question={question}
         onAnswer={onAnswer}
       />
-
-      <p className="mt-4 text-center text-xs font-medium text-muted">
-        {mode === "solo"
-          ? "После выбора Tilli объяснит ответ."
-          : "В дуэли важны точность и скорость — объяснения отключены."}
-      </p>
     </section>
   );
 }

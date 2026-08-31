@@ -1,4 +1,4 @@
-import { Check, Heart, Sparkles, UserRound, UsersRound } from "lucide-react";
+import { Check, Sparkles, UserRound, UsersRound } from "lucide-react";
 
 import { type GameProductId } from "@/entities/game-product";
 import { type GameMode } from "@/entities/game-session";
@@ -26,16 +26,16 @@ const modes = [
   {
     id: "solo",
     title: "Играть одному",
-    description: "Факт после каждого ответа, без тайм-лимита",
+    description: "Факты после ответов · без ограничения по времени",
     icon: UserRound,
     badge: "Познавательно",
   },
   {
     id: "duel-demo",
     title: "Дуэль с ботом",
-    description: "Демо правил: 3 жизни и 8 быстрых раундов",
+    description: "3 жизни · 8 раундов",
     icon: UsersRound,
-    badge: "Демо режима",
+    badge: "Демо",
   },
 ] as const satisfies readonly {
   badge: string;
@@ -68,7 +68,7 @@ export function GameSetup({
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
           <p className="mb-1 text-xs font-black uppercase tracking-[0.18em] text-primary">
-            Настрой игру {gameId === "two-pictures" ? "01" : "02"}
+            Режим и тема
           </p>
           <h2
             className="text-2xl font-black tracking-[-0.045em] text-foreground"
@@ -140,11 +140,8 @@ export function GameSetup({
 
       <div className="mt-7">
         <div className="mb-3 flex items-end justify-between gap-3">
-          <div>
-            <p className="text-sm font-black text-foreground">Выбери тему</p>
-            <p className="mt-0.5 text-xs text-muted">Без уровней и сложности</p>
-          </div>
-          <p className="text-xs font-bold text-muted">{availableQuestions} в демо-пуле</p>
+          <p className="text-sm font-black text-foreground">Выбери тему</p>
+          <p className="text-xs font-bold text-muted">Доступно: {availableQuestions}</p>
         </div>
         <div
           aria-label="Категория вопросов"
@@ -179,17 +176,8 @@ export function GameSetup({
         </div>
       </div>
 
-      <div className="mt-7 rounded-[1.25rem] bg-soft/75 p-3.5">
-        <p className="flex items-center gap-2 text-xs font-bold text-muted">
-          <Heart aria-hidden="true" className="size-4 fill-danger text-danger" />
-          {mode === "solo"
-            ? "Сессию можно завершить в любой момент — прогресс посчитается."
-            : "Это честно обозначенный бот-режим; реальный онлайн потребует сервер TILLAR."}
-        </p>
-      </div>
-
       <Button className="mt-5" fullWidth size="large" onClick={onStart}>
-        {gameId === "two-pictures" ? "Начать игру с картинками" : "Начать игру со словами"}
+        Начать игру
         <span aria-hidden="true">→</span>
       </Button>
     </section>

@@ -1,4 +1,4 @@
-import { Bot, Check, Clock3, Grid2X2Plus, X } from "lucide-react";
+import { Bot, Check, Clock3, X } from "lucide-react";
 
 import { WordComposer } from "@/features/compose-word";
 import { questionCategories } from "@/entities/question";
@@ -124,10 +124,6 @@ export function WordPuzzleBoard({
       </div>
 
       <div className="mb-5 sm:mb-6">
-        <p className="mb-2 flex items-center gap-2 text-[0.67rem] font-black uppercase tracking-[0.15em] text-muted">
-          <Grid2X2Plus aria-hidden="true" className="size-3.5 text-primary" />
-          Найди общую идею
-        </p>
         <h1 className="text-balance max-w-4xl text-2xl font-black leading-tight tracking-[-0.045em] text-foreground sm:text-3xl lg:text-[2.15rem]">
           {puzzle.prompt}
         </h1>
@@ -148,23 +144,16 @@ export function WordPuzzleBoard({
           ))}
         </div>
 
-        <div>
-          <WordComposer
-            answerLength={getWordLength(puzzle.answer)}
-            disabled={status !== "playing" || Boolean(playerAnswer)}
-            letterTiles={letterTiles}
-            selectedTileIds={selectedTileIds}
-            onClear={onClear}
-            onRemoveTile={onRemoveTile}
-            onSelectTile={onSelectTile}
-            onSubmit={onSubmit}
-          />
-          <p className="mt-3 text-center text-xs font-medium text-muted">
-            {mode === "solo"
-              ? "После проверки Tilli покажет правильное слово и объяснение."
-              : "В дуэли объяснений нет: важны правильное слово и скорость."}
-          </p>
-        </div>
+        <WordComposer
+          answerLength={getWordLength(puzzle.answer)}
+          disabled={status !== "playing" || Boolean(playerAnswer)}
+          letterTiles={letterTiles}
+          selectedTileIds={selectedTileIds}
+          onClear={onClear}
+          onRemoveTile={onRemoveTile}
+          onSelectTile={onSelectTile}
+          onSubmit={onSubmit}
+        />
       </div>
     </section>
   );

@@ -71,11 +71,11 @@ export function WordResultPage() {
       botStats={botStats}
       categoryIcon={category?.icon}
       categoryLabel={category?.label ?? "Все темы"}
-      gameLabel="Игра 02 · Четыре картинки / слово"
+      gameLabel="Четыре картинки / слово"
       isSolo={isSolo}
       playerStats={playerStats}
       robotVariant={tone === "success" ? "celebrate" : tone === "danger" ? "encourage" : "idle"}
-      statusLabel={isSolo ? "Сессия завершена" : "Результат бот-дуэли"}
+      statusLabel={isSolo ? "Сессия завершена" : "Результат дуэли"}
       subtitle={subtitle}
       title={title}
       tone={tone}

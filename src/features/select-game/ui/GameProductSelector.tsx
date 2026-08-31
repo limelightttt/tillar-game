@@ -17,7 +17,7 @@ const productIcons = {
 export function GameProductSelector({ onChange, value }: GameProductSelectorProps) {
   return (
     <section aria-labelledby="game-product-title" className="mb-5">
-      <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+      <div className="mb-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.16em] text-primary">
             TILLAR Games
@@ -29,7 +29,6 @@ export function GameProductSelector({ onChange, value }: GameProductSelectorProp
             Выбери игру
           </h1>
         </div>
-        <p className="text-xs font-bold text-muted">Обе игры работают в одной платформе</p>
       </div>
 
       <div aria-label="Игровой продукт" className="grid gap-2.5 sm:grid-cols-2" role="group">
@@ -59,15 +58,7 @@ export function GameProductSelector({ onChange, value }: GameProductSelectorProp
                 <Icon aria-hidden="true" className="size-5" />
               </span>
               <span className="min-w-0 flex-1">
-                <span
-                  className={cn(
-                    "text-[0.62rem] font-black uppercase tracking-[0.12em]",
-                    selected ? "text-cyan" : "text-primary",
-                  )}
-                >
-                  Игра {product.code}
-                </span>
-                <span className="mt-0.5 block font-black tracking-[-0.025em]">{product.title}</span>
+                <span className="block font-black tracking-[-0.025em]">{product.title}</span>
                 <span
                   className={cn("mt-0.5 block text-xs", selected ? "text-white/58" : "text-muted")}
                 >
