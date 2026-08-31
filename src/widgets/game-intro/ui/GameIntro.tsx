@@ -115,8 +115,14 @@ export function GameIntro({ gameId }: GameIntroProps) {
         </div>
 
         <div className="relative mt-8 min-h-56 flex-1 sm:min-h-64">
-          <div className="absolute bottom-1 left-1/2 h-8 w-44 -translate-x-1/2 rounded-[50%] bg-black/40 blur-xl sm:left-auto sm:right-8 sm:translate-x-0" />
-          <div className="pointer-events-none absolute bottom-0 left-1/2 w-56 -translate-x-1/2 sm:left-auto sm:right-0 sm:w-64 sm:translate-x-0">
+          <div
+            aria-hidden="true"
+            className="absolute bottom-20 right-0 text-right text-5xl font-black tracking-[-0.08em] text-white/15 sm:bottom-24 sm:text-7xl"
+          >
+            TILLI
+          </div>
+          <div className="absolute bottom-1 left-2 h-8 w-36 rounded-[50%] bg-black/40 blur-xl sm:left-5 sm:w-44" />
+          <div className="pointer-events-none absolute bottom-0 left-0 z-10 w-44 sm:left-1 sm:w-56">
             <RobotSequence
               decorative
               className="drop-shadow-[0_24px_32px_rgba(0,0,0,0.36)]"

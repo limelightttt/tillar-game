@@ -1,7 +1,7 @@
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { GameResultView } from "@/widgets/game-result";
-import { questionCategories } from "@/entities/question";
+import { CategoryIcon, questionCategories } from "@/entities/question";
 import { useWordGameSessionStore } from "@/entities/word-game-session";
 
 import { routes } from "@/shared/config";
@@ -69,7 +69,7 @@ export function WordResultPage() {
   return (
     <GameResultView
       botStats={botStats}
-      categoryIcon={category?.icon}
+      categoryIcon={<CategoryIcon categoryId={category?.id ?? "all"} />}
       categoryLabel={category?.label ?? "Все темы"}
       gameLabel="Четыре картинки / слово"
       isSolo={isSolo}

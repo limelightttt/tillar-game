@@ -2,7 +2,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 import { GameResultView } from "@/widgets/game-result";
 import { useGameSessionStore } from "@/entities/game-session";
-import { questionCategories } from "@/entities/question";
+import { CategoryIcon, questionCategories } from "@/entities/question";
 
 import { routes } from "@/shared/config";
 
@@ -69,7 +69,7 @@ export function ResultPage() {
   return (
     <GameResultView
       botStats={botStats}
-      categoryIcon={category?.icon}
+      categoryIcon={<CategoryIcon categoryId={category?.id ?? "all"} />}
       categoryLabel={category?.label ?? "Все темы"}
       gameLabel="Две картинки"
       isSolo={isSolo}
