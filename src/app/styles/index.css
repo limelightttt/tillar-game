@@ -1,28 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #f7f6fb;
-  --color-foreground: #1c1930;
-  --color-ink: #171427;
-  --color-muted: #777389;
-  --color-line: #e8e5f0;
-  --color-soft: #f0eef7;
-  --color-primary: #7557e8;
-  --color-primary-strong: #6042d5;
-  --color-primary-soft: #eee9ff;
-  --color-cyan: #12cbe4;
-  --color-cyan-soft: #dffaff;
-  --color-success: #21b66f;
-  --color-success-soft: #e3f9ee;
-  --color-danger: #f25768;
+  --color-background: #f3f7fb;
+  --color-foreground: #0b2442;
+  --color-ink: #071f3d;
+  --color-muted: #64768b;
+  --color-line: #d9e4ef;
+  --color-soft: #eaf1f7;
+  --color-primary: #087cf0;
+  --color-primary-strong: #0062ce;
+  --color-primary-soft: #e4f1ff;
+  --color-cyan: #22b4f4;
+  --color-cyan-soft: #e1f7ff;
+  --color-success: #19c96f;
+  --color-success-soft: #e2f9ed;
+  --color-danger: #ff5265;
   --color-danger-soft: #fff0f2;
-  --color-warning: #ffb320;
+  --color-warning: #f4b91f;
   --font-sans: "Manrope", "Segoe UI", Arial, sans-serif;
 }
 
 :root {
-  color: #1c1930;
-  background: #f7f6fb;
+  color: #0b2442;
+  background: #f3f7fb;
   font-family: "Manrope", "Segoe UI", Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -40,7 +40,7 @@
 html {
   min-width: 320px;
   min-height: 100%;
-  background: #f7f6fb;
+  background: #f3f7fb;
 }
 
 body {
@@ -48,9 +48,9 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at 5% 12%, rgb(18 203 228 / 0.12), transparent 22rem),
-    radial-gradient(circle at 94% 4%, rgb(117 87 232 / 0.14), transparent 28rem), #f7f6fb;
-  color: #1c1930;
+    radial-gradient(circle at 4% 10%, rgb(34 180 244 / 0.12), transparent 24rem),
+    radial-gradient(circle at 96% 0%, rgb(8 124 240 / 0.12), transparent 30rem), #f3f7fb;
+  color: #0b2442;
   line-height: 1.5;
 }
 
@@ -75,7 +75,7 @@ button:disabled {
 }
 
 ::selection {
-  background: rgb(117 87 232 / 0.24);
+  background: rgb(8 124 240 / 0.22);
 }
 
 #root {
@@ -97,10 +97,33 @@ dialog::backdrop {
   inset: 0;
   pointer-events: none;
   content: "";
-  opacity: 0.28;
-  background-image: radial-gradient(rgb(28 25 48 / 0.16) 0.55px, transparent 0.55px);
+  opacity: 0.2;
+  background-image: radial-gradient(rgb(7 31 61 / 0.14) 0.55px, transparent 0.55px);
   background-size: 7px 7px;
   mask-image: linear-gradient(to bottom, black, transparent 74%);
+}
+
+.tillar-header {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      130deg,
+      transparent 0 25%,
+      rgb(8 124 240 / 0.1) 25% 42%,
+      transparent 42% 66%,
+      rgb(34 180 244 / 0.08) 66% 78%,
+      transparent 78%
+    ),
+    linear-gradient(135deg, #0b2e5d, #071f3d 62%);
+  box-shadow: 0 18px 45px -30px rgb(7 31 61 / 0.75);
+}
+
+.tillar-surface {
+  border-color: rgb(255 255 255 / 0.92);
+  background: rgb(255 255 255 / 0.94);
+  box-shadow: 0 24px 64px -38px rgb(7 31 61 / 0.36);
 }
 
 .safe-bottom {

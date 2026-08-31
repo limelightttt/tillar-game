@@ -43,7 +43,7 @@ export function GameProductSelector({ onChange, value }: GameProductSelectorProp
               className={cn(
                 "group flex min-h-[5.5rem] items-center gap-3 rounded-[1.45rem] border p-3.5 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 sm:p-4",
                 selected
-                  ? "border-primary bg-ink text-white shadow-[0_16px_35px_-24px_rgba(28,25,48,0.9)]"
+                  ? "border-primary/65 bg-ink text-white shadow-[0_16px_35px_-24px_rgba(7,31,61,0.9)]"
                   : "border-white/80 bg-white/88 text-foreground shadow-sm hover:border-primary/30 hover:bg-white",
               )}
               key={product.id}

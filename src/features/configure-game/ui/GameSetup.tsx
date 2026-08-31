@@ -62,7 +62,7 @@ export function GameSetup({
   return (
     <section
       aria-labelledby="game-setup-title"
-      className="rounded-[2rem] border border-white/80 bg-white/90 p-5 shadow-[0_24px_70px_-35px_rgba(37,28,82,0.35)] backdrop-blur sm:p-7"
+      className="tillar-surface rounded-[2rem] border p-5 backdrop-blur sm:p-7"
       id="game-setup"
     >
       <div className="mb-6 flex items-start justify-between gap-4">
@@ -93,7 +93,7 @@ export function GameSetup({
               className={cn(
                 "group relative flex min-h-[5.5rem] items-center gap-4 rounded-[1.4rem] border p-4 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20",
                 selected
-                  ? "border-primary bg-primary-soft shadow-[0_10px_26px_-18px_rgba(117,87,232,0.7)]"
+                  ? "border-primary bg-primary-soft shadow-[0_10px_26px_-18px_rgba(8,124,240,0.65)]"
                   : "border-line bg-white hover:border-primary/35 hover:bg-soft/60",
               )}
               key={item.id}
@@ -161,7 +161,7 @@ export function GameSetup({
                 className={cn(
                   "inline-flex min-h-11 items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-bold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20",
                   selected
-                    ? "border-ink bg-ink text-white shadow-sm"
+                    ? "border-primary bg-primary text-white shadow-sm"
                     : "border-line bg-white text-foreground hover:border-primary/35 hover:bg-soft",
                 )}
                 key={category.id}
