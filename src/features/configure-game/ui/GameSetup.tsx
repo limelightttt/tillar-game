@@ -3,6 +3,7 @@ import { Check, Sparkles, UserRound, UsersRound } from "lucide-react";
 import { type GameProductId } from "@/entities/game-product";
 import { type GameMode } from "@/entities/game-session";
 import {
+  CategoryIcon,
   type CategoryId,
   filterQuestionsByCategory,
   pictureQuestions,
@@ -165,7 +166,7 @@ export function GameSetup({
                 type="button"
                 onClick={() => onCategoryChange(category.id)}
               >
-                <span aria-hidden="true">{category.icon}</span>
+                <CategoryIcon categoryId={category.id} />
                 {category.label}
                 <span className={cn("text-[0.65rem]", selected ? "text-white/55" : "text-muted")}>
                   {count}

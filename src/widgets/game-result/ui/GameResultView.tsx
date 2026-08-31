@@ -1,3 +1,5 @@
+import { type ReactNode } from "react";
+
 import { ArrowRight, Bot, Check, Clock3, Home, RotateCcw, Trophy, X } from "lucide-react";
 
 import { cn, formatPercent, formatSeconds } from "@/shared/lib";
@@ -17,7 +19,7 @@ type ResultTone = "success" | "neutral" | "danger";
 interface GameResultViewProps {
   botLabel?: string;
   botStats: GameResultStats;
-  categoryIcon?: string;
+  categoryIcon?: ReactNode;
   categoryLabel: string;
   comparisonNote?: string;
   gameLabel: string;

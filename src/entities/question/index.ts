@@ -23,4 +23,5 @@ export {
   type QuestionOption,
   type QuestionOptionId,
 } from "./model/types";
+export { CategoryIcon } from "./ui/CategoryIcon";
 export { PictureArtwork, type PictureArtworkProps } from "./ui/PictureArtwork";
