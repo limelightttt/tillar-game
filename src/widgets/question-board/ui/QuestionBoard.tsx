@@ -98,7 +98,7 @@ export function QuestionBoard({
   const category = questionCategories.find((item) => item.id === question.categoryId);
 
   return (
-    <section className="rounded-[2rem] border border-white/80 bg-white/92 p-4 shadow-[0_24px_70px_-38px_rgba(37,28,82,0.42)] backdrop-blur sm:p-6 lg:p-7">
+    <section className="tillar-surface rounded-[2rem] border p-4 backdrop-blur sm:p-6 lg:p-7">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-2 text-xs font-black text-primary">
           <span aria-hidden="true">{category?.icon ?? "✨"}</span>

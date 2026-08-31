@@ -15,6 +15,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:update": "playwright test --update-snapshots",
     "test:watch": "vitest",
     "check:fsd": "node scripts/check-fsd.mjs",
     "check": "pnpm lint && pnpm check:fsd && pnpm test && pnpm build",
@@ -32,6 +34,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/vite": "^4.3.2",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.17",

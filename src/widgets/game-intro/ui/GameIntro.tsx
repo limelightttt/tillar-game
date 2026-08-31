@@ -70,9 +70,9 @@ export function GameIntro({ gameId }: GameIntroProps) {
   const content = introContent[gameId];
 
   return (
-    <section className="relative isolate min-h-[38rem] overflow-hidden rounded-[2.25rem] bg-ink p-6 text-white shadow-[0_28px_80px_-34px_rgba(24,20,52,0.72)] sm:min-h-[42rem] sm:p-9">
-      <div className="absolute -right-20 -top-20 size-72 rounded-full bg-primary/45 blur-3xl" />
-      <div className="absolute -bottom-32 -left-24 size-80 rounded-full bg-cyan/25 blur-3xl" />
+    <section className="tillar-header relative isolate min-h-[38rem] overflow-hidden rounded-[2.25rem] p-6 text-white shadow-[0_28px_80px_-34px_rgba(7,31,61,0.72)] sm:min-h-[42rem] sm:p-9">
+      <div className="absolute -right-20 -top-20 size-72 rounded-full bg-primary/30 blur-3xl" />
+      <div className="absolute -bottom-32 -left-24 size-80 rounded-full bg-cyan/20 blur-3xl" />
       <div
         className="absolute inset-0 opacity-[0.07]"
         style={{
