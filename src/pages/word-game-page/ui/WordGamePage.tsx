@@ -81,7 +81,7 @@ export function WordGamePage() {
     navigate(routes.home, { replace: true });
   };
 
-  const modeLabel = mode === "solo" ? "Одиночная игра" : "Дуэль · бот-демо";
+  const modeLabel = mode === "solo" ? "Одиночная игра" : "Дуэль с ботом";
   const ModeIcon = mode === "solo" ? UserRound : Swords;
 
   return (

@@ -23,7 +23,7 @@ export function ExitGameModal({ mode, onCancel, onConfirm, open }: ExitGameModal
       <p className="mt-2 text-sm leading-relaxed text-muted">
         {isSolo
           ? "Мы покажем статистику по уже отвеченным вопросам."
-          : "Демо-матч будет сброшен, текущий результат не сохранится."}
+          : "Текущий матч будет сброшен, результат не сохранится."}
       </p>
       <div className="mt-6 grid gap-2.5 sm:grid-cols-2">
         <Button fullWidth variant="secondary" onClick={onCancel}>

@@ -1,9 +1,8 @@
 import { type ReactNode } from "react";
 
-import { ArrowLeft, CircleHelp } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import { cn } from "@/shared/lib";
 import { TillarLogo } from "@/shared/ui";
 
 interface AppHeaderProps {
@@ -61,16 +60,7 @@ export function AppHeader({
         ) : null}
       </div>
 
-      <div className={cn("flex shrink-0 items-center gap-2", !rightSlot && "hidden sm:flex")}>
-        {rightSlot ?? (
-          <div className="flex items-center gap-2 rounded-full border border-white/18 bg-white/10 py-1.5 pl-2 pr-3 text-xs font-bold text-white/70 shadow-sm backdrop-blur">
-            <span className="grid size-7 place-items-center rounded-full bg-white/12 text-cyan">
-              <CircleHelp aria-hidden="true" className="size-4" />
-            </span>
-            2 игры
-          </div>
-        )}
-      </div>
+      {rightSlot ? <div className="flex shrink-0 items-center gap-2">{rightSlot}</div> : null}
     </header>
   );
 }

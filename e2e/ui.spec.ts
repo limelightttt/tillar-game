@@ -24,7 +24,7 @@ test("home keeps the TILLAR draft responsive", async ({ page }) => {
 
 test("two-picture solo flow reaches educational feedback", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: /Начать игру с картинками/ }).click();
+  await page.getByRole("button", { name: "Начать игру", exact: true }).click();
 
   const choices = page.getByRole("group", { name: "Варианты ответа" });
   await expect(choices).toBeVisible();
@@ -38,7 +38,7 @@ test("two-picture solo flow reaches educational feedback", async ({ page }) => {
 test("word-game selection starts the existing word flow", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: /Четыре картинки.*слово/i }).click();
-  await page.getByRole("button", { name: /Начать игру со словами/ }).click();
+  await page.getByRole("button", { name: "Начать игру", exact: true }).click();
 
   await expect(page.getByRole("group", { name: "Четыре визуальные подсказки" })).toBeVisible();
   await expect(page.getByRole("group", { name: "Составление слова" })).toBeVisible();

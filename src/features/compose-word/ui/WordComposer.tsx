@@ -1,6 +1,6 @@
 import { type KeyboardEvent } from "react";
 
-import { Check, Delete, RotateCcw } from "lucide-react";
+import { Check, RotateCcw } from "lucide-react";
 
 import { buildWordFromTiles, type LetterTile, type LetterTileId } from "@/entities/word-puzzle";
 
@@ -71,9 +71,7 @@ export function WordComposer({
           <p className="text-[0.65rem] font-black uppercase tracking-[0.14em] text-primary">
             Твой ответ
           </p>
-          <p className="mt-0.5 text-xs font-bold text-muted">
-            {answerLength} букв · нажми на букву, чтобы добавить
-          </p>
+          <p className="mt-0.5 text-xs font-bold text-muted">{answerLength} букв</p>
         </div>
         <span className="rounded-full bg-white px-2.5 py-1 text-[0.65rem] font-black text-muted shadow-sm">
           {selectedTileIds.length}/{answerLength}
@@ -152,17 +150,10 @@ export function WordComposer({
           <RotateCcw aria-hidden="true" className="size-4" />
         </Button>
         <Button disabled={disabled || !complete} fullWidth onClick={onSubmit}>
-          {complete ? (
-            <Check aria-hidden="true" className="size-4" />
-          ) : (
-            <Delete aria-hidden="true" className="size-4" />
-          )}
-          {complete ? "Проверить слово" : "Собери все буквы"}
+          <Check aria-hidden="true" className="size-4" />
+          Проверить слово
         </Button>
       </div>
-      <p className="mt-3 text-center text-[0.65rem] font-bold text-muted">
-        Можно печатать буквы · Backspace убирает последнюю
-      </p>
     </div>
   );
 }

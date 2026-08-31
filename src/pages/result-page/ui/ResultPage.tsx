@@ -71,7 +71,7 @@ export function ResultPage() {
       botStats={botStats}
       categoryIcon={category?.icon}
       categoryLabel={category?.label ?? "Все темы"}
-      gameLabel="Игра 01 · Две картинки"
+      gameLabel="Две картинки"
       isSolo={isSolo}
       playerStats={playerStats}
       robotVariant={tone === "success" ? "celebrate" : tone === "danger" ? "encourage" : "idle"}
