@@ -61,18 +61,26 @@ describe("robotSequences", () => {
   });
 
   it("bottom-centers every celebrate crop at one pixel scale", () => {
-    const { frames, stage } = robotSequences.celebrate;
+    const { frameScale, frames, stage } = robotSequences.celebrate;
 
     expect(frames).toHaveLength(8);
-    expect(Math.max(...frames.map(({ width }) => width))).toBe(stage.width);
-    expect(Math.max(...frames.map(({ height }) => height))).toBe(stage.height);
+    expect(stage).toEqual({ height: 512, width: 512 });
+    expect(frameScale).toBe(512 / 823);
 
     for (const frame of frames) {
-      const placement = getRobotFramePlacement(stage, frame);
+      const placement = getRobotFramePlacement(stage, frame, frameScale);
       expect(placement.x + placement.width / 2).toBe(stage.width / 2);
       expect(placement.y + placement.height).toBe(stage.height);
-      expect(placement.width).toBe(frame.width);
-      expect(placement.height).toBe(frame.height);
+      expect(placement.width).toBe(frame.width * frameScale);
+      expect(placement.height).toBe(frame.height * frameScale);
+      expect(placement.width).toBeLessThanOrEqual(stage.width);
+      expect(placement.height).toBeLessThanOrEqual(stage.height);
     }
+  });
+
+  it("uses one stable square presentation stage for every semantic variant", () => {
+    expect(robotSequences.idle.stage).toEqual({ height: 512, width: 512 });
+    expect(robotSequences.celebrate.stage).toEqual(robotSequences.idle.stage);
+    expect(robotSequences.encourage.stage).toEqual(robotSequences.idle.stage);
   });
 });

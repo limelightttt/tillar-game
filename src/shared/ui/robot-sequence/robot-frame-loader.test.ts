@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { decodeRobotFrames } from "./robot-frame-loader";
+import { decodeRobotFrames, prepareRobotFrames } from "./robot-frame-loader";
 import { type RobotFrame } from "./robot-sequence.model";
 
 const frame: RobotFrame = {
@@ -105,6 +105,37 @@ describe("decodeRobotFrames", () => {
       decodeRobotFrames([cachedFrame], true),
       decodeRobotFrames([cachedFrame], true),
     ]);
+    expect(decodeCalls).toBe(1);
+  });
+
+  it("retains a prepared sequence for an immediate later consumer", async () => {
+    let decodeCalls = 0;
+
+    class PreparedImage {
+      complete = true;
+      decoding = "auto";
+      naturalHeight: number;
+      naturalWidth: number;
+      src = "";
+
+      constructor(width: number, height: number) {
+        this.naturalHeight = height;
+        this.naturalWidth = width;
+      }
+
+      decode() {
+        decodeCalls += 1;
+        return Promise.resolve();
+      }
+    }
+
+    vi.stubGlobal("Image", PreparedImage);
+    const preparedFrame = { ...frame, src: "/prepared-frame.png" };
+
+    const firstResult = await prepareRobotFrames([preparedFrame]);
+    const secondResult = await prepareRobotFrames([preparedFrame]);
+
+    expect(secondResult).toBe(firstResult);
     expect(decodeCalls).toBe(1);
   });
 });

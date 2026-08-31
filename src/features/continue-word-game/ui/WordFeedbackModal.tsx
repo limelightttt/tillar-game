@@ -29,17 +29,18 @@ export function WordFeedbackModal({
   return (
     <Modal label={correct ? "Правильный ответ" : "Неправильный ответ"} open={open}>
       <div className="absolute -right-16 -top-20 size-52 rounded-full bg-primary-soft blur-2xl" />
-      <div className="relative grid gap-5 sm:grid-cols-[9rem_1fr] sm:items-center">
+      <div className="relative grid gap-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center sm:gap-5">
         <div
           className={cn(
-            "mx-auto grid size-32 place-items-end overflow-visible rounded-[2rem] sm:size-36",
+            "mx-auto grid size-32 place-items-center overflow-hidden rounded-[2rem] p-1",
             correct ? "bg-success-soft" : "bg-danger-soft",
           )}
         >
           <RobotSequence
             decorative
-            className="w-[8.75rem] translate-y-2"
-            key={`${puzzle.id}-${feedback.kind}`}
+            className="size-full drop-shadow-[0_14px_18px_rgba(28,25,48,0.2)]"
+            replayKey={`${puzzle.id}-${feedback.kind}`}
+            startDelayMs={240}
             variant={correct ? "celebrate" : "encourage"}
           />
         </div>
@@ -60,7 +61,7 @@ export function WordFeedbackModal({
           <p className="text-xs font-black uppercase tracking-[0.16em] text-muted">
             {correct ? "Да, правильно" : "Есть новая подсказка"}
           </p>
-          <h2 className="mt-1 text-3xl font-black tracking-[-0.05em] text-foreground">
+          <h2 className="mt-1 text-2xl font-black tracking-[-0.05em] text-foreground sm:text-3xl">
             {correct ? "Слово найдено!" : "Запомним слово"}
           </h2>
         </div>
@@ -80,7 +81,7 @@ export function WordFeedbackModal({
         <p className="mt-1 text-[0.68rem] font-black uppercase tracking-[0.15em] text-muted">
           Правильное слово
         </p>
-        <p className="mt-1 text-3xl font-black tracking-[0.08em] text-foreground">
+        <p className="mt-1 break-words text-2xl font-black tracking-[0.06em] text-foreground sm:text-3xl sm:tracking-[0.08em]">
           {feedback.correctWord}
         </p>
       </div>

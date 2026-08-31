@@ -2,6 +2,7 @@ import { type RobotFrame } from "./robot-sequence.model";
 
 const decodedFrameCache = new Map<string, WeakRef<HTMLImageElement>>();
 const pendingFrameCache = new Map<string, Promise<HTMLImageElement>>();
+const preparedFrameSetCache = new Map<string, Promise<ReadonlyMap<string, HTMLImageElement>>>();
 
 export function getUniqueRobotFrames(frames: readonly RobotFrame[]) {
   const seenSources = new Set<string>();
@@ -75,4 +76,31 @@ export async function decodeRobotFrames(frames: readonly RobotFrame[], cache: bo
   );
 
   return new Map(decodedFrames);
+}
+
+function getFrameSetCacheKey(frames: readonly RobotFrame[]) {
+  return getUniqueRobotFrames(frames)
+    .map(({ src }) => src)
+    .join("\n");
+}
+
+/**
+ * Keeps a complete decoded sequence strongly referenced after background
+ * preparation, so the first visible reaction cannot fall back to a multi-second
+ * network/decode wait. The app only prepares the two supplied action sequences.
+ */
+export function prepareRobotFrames(frames: readonly RobotFrame[]) {
+  const cacheKey = getFrameSetCacheKey(frames);
+  const preparedFrames = preparedFrameSetCache.get(cacheKey);
+  if (preparedFrames) return preparedFrames;
+
+  const preparation = decodeRobotFrames(frames, true);
+  preparedFrameSetCache.set(cacheKey, preparation);
+  void preparation.catch(() => {
+    if (preparedFrameSetCache.get(cacheKey) === preparation) {
+      preparedFrameSetCache.delete(cacheKey);
+    }
+  });
+
+  return preparation;
 }

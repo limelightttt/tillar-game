@@ -1,6 +1,6 @@
 import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import { decodeRobotFrames } from "./robot-frame-loader";
+import { decodeRobotFrames, prepareRobotFrames } from "./robot-frame-loader";
 import {
   getRobotFramePlacement,
   getRobotSequence,
@@ -32,6 +32,8 @@ export type RobotSequenceProps = AccessibleRobotSequenceProps & {
   preload?: boolean;
   /** Change this value to replay the same mounted variant from its first frame. */
   replayKey?: number | string;
+  /** Holds the poster briefly before playback, for deliberate UI sequencing. */
+  startDelayMs?: number;
   style?: CSSProperties;
   /**
    * idle: calm screens; celebrate: success; encourage: mistakes or a loss.
@@ -64,15 +66,15 @@ function drawRobotFrame(
   canvas: HTMLCanvasElement,
   frame: RobotFrame,
   image: HTMLImageElement,
-  stage: { height: number; width: number },
+  sequence: ReturnType<typeof getRobotSequence>,
 ) {
   const context = canvas.getContext("2d");
   if (!context) {
     return false;
   }
 
-  const placement = getRobotFramePlacement(stage, frame);
-  context.clearRect(0, 0, stage.width, stage.height);
+  const placement = getRobotFramePlacement(sequence.stage, frame, sequence.frameScale);
+  context.clearRect(0, 0, sequence.stage.width, sequence.stage.height);
   context.drawImage(image, placement.x, placement.y, placement.width, placement.height);
   return true;
 }
@@ -85,6 +87,7 @@ export function RobotSequence({
   onComplete,
   preload = true,
   replayKey,
+  startDelayMs = 0,
   style,
   variant,
 }: RobotSequenceProps) {
@@ -117,7 +120,11 @@ export function RobotSequence({
       }
     };
 
-    void decodeRobotFrames(sequence.frames, preload)
+    const decodedFrameRequest = preload
+      ? prepareRobotFrames(sequence.frames)
+      : decodeRobotFrames(sequence.frames, false);
+
+    void decodedFrameRequest
       .then((decodedFrames) => {
         if (cancelled) {
           return;
@@ -132,7 +139,7 @@ export function RobotSequence({
           return;
         }
 
-        if (!drawRobotFrame(canvas, firstFrame, firstImage, sequence.stage)) {
+        if (!drawRobotFrame(canvas, firstFrame, firstImage, sequence)) {
           completeWithoutAnimation();
           return;
         }
@@ -169,11 +176,7 @@ export function RobotSequence({
 
     const firstFrame = sequence.frames[0];
     const firstImage = firstFrame ? preparedRun.decodedFrames.get(firstFrame.src) : undefined;
-    if (
-      !firstFrame ||
-      !firstImage ||
-      !drawRobotFrame(canvas, firstFrame, firstImage, sequence.stage)
-    ) {
+    if (!firstFrame || !firstImage || !drawRobotFrame(canvas, firstFrame, firstImage, sequence)) {
       return undefined;
     }
 
@@ -183,13 +186,14 @@ export function RobotSequence({
 
     const updateFrame = (timestamp: number) => {
       startedAt ??= timestamp;
-      const position = getRobotTimelinePosition(sequence, timestamp - startedAt, loop);
+      const playbackElapsedMs = timestamp - startedAt - Math.max(0, startDelayMs);
+      const position = getRobotTimelinePosition(sequence, playbackElapsedMs, loop);
 
       if (position.frameIndex !== currentFrameIndex) {
         const frame = sequence.frames[position.frameIndex];
         const image = frame ? preparedRun.decodedFrames.get(frame.src) : undefined;
 
-        if (frame && image && drawRobotFrame(canvas, frame, image, sequence.stage)) {
+        if (frame && image && drawRobotFrame(canvas, frame, image, sequence)) {
           currentFrameIndex = position.frameIndex;
         }
       }
@@ -204,7 +208,7 @@ export function RobotSequence({
 
     animationFrame = window.requestAnimationFrame(updateFrame);
     return () => window.cancelAnimationFrame(animationFrame);
-  }, [loop, preparedRun, runIsPrepared, sequence]);
+  }, [loop, preparedRun, runIsPrepared, sequence, startDelayMs]);
 
   useEffect(() => {
     if (!prefersReducedMotion || loop || sequence.frames.length <= 1) {
@@ -216,7 +220,7 @@ export function RobotSequence({
   }, [loop, prefersReducedMotion, replayKey, sequence, variant]);
 
   const posterFrame = prefersReducedMotion ? sequence.reducedMotionFrame : sequence.posterFrame;
-  const posterWidth = `${(posterFrame.width / sequence.stage.width) * 100}%`;
+  const posterWidth = `${((posterFrame.width * sequence.frameScale) / sequence.stage.width) * 100}%`;
   const rootClassName = className ? `robot-sequence ${className}` : "robot-sequence";
 
   return (

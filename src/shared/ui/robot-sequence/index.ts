@@ -1,3 +1,4 @@
+export { preloadRobotActions } from "./preload-robot-actions";
 export {
   type RobotSequenceIntent,
   type RobotSequenceLegacyVariant,

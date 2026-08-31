@@ -20,21 +20,21 @@
   inset-inline-start: 50%;
   max-inline-size: none;
   block-size: auto;
-  opacity: 1;
   transform: translateX(-50%);
+  visibility: visible;
 }
 
 .robot-sequence__canvas {
   inset: 0;
   inline-size: 100%;
   block-size: 100%;
-  opacity: 0;
+  visibility: hidden;
 }
 
 .robot-sequence[data-robot-renderer="canvas"] .robot-sequence__poster {
-  opacity: 0;
+  visibility: hidden;
 }
 
 .robot-sequence[data-robot-renderer="canvas"] .robot-sequence__canvas {
-  opacity: 1;
+  visibility: visible;
 }

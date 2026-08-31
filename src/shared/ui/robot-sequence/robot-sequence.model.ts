@@ -16,6 +16,7 @@ export interface RobotStage {
 export interface RobotSequenceDefinition {
   readonly durationMs: number;
   readonly frameDurationMs: number;
+  readonly frameScale: number;
   readonly frames: readonly RobotFrame[];
   readonly intent: RobotSequenceIntent;
   readonly posterFrame: RobotFrame;
@@ -37,6 +38,7 @@ export interface RobotFramePlacement {
 
 const ENCOURAGE_FRAME_DURATION_MS = 50;
 const CELEBRATE_FRAME_DURATION_MS = 120;
+const ROBOT_STAGE_SIZE = 512;
 
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}assets/robot/${path}`;
 
@@ -95,6 +97,7 @@ const celebrateFrames = celebrateDimensions.map(([width, height], frameIndex): R
 const idleSequence: RobotSequenceDefinition = {
   durationMs: 0,
   frameDurationMs: 0,
+  frameScale: 1,
   frames: [neutralFrame],
   intent: "idle",
   posterFrame: neutralFrame,
@@ -105,17 +108,20 @@ const idleSequence: RobotSequenceDefinition = {
 const celebrateSequence: RobotSequenceDefinition = {
   durationMs: celebrateFrames.length * CELEBRATE_FRAME_DURATION_MS,
   frameDurationMs: CELEBRATE_FRAME_DURATION_MS,
+  // The source crops are taller than the other supplied sequences. A single
+  // scale fits every jump frame into the same square presentation stage.
+  frameScale: ROBOT_STAGE_SIZE / Math.max(...celebrateFrames.map(({ height }) => height)),
   frames: celebrateFrames,
   intent: "celebrate",
   posterFrame: celebrateFrames[0] ?? neutralFrame,
   reducedMotionFrame: celebrateFrames.at(-1) ?? neutralFrame,
-  // Variable crops share one source-pixel scale inside the largest bounds.
-  stage: { height: 823, width: 606 },
+  stage: { height: ROBOT_STAGE_SIZE, width: ROBOT_STAGE_SIZE },
 };
 
 const encourageSequence: RobotSequenceDefinition = {
   durationMs: encourageTimeline.length * ENCOURAGE_FRAME_DURATION_MS,
   frameDurationMs: ENCOURAGE_FRAME_DURATION_MS,
+  frameScale: 1,
   frames: encourageTimeline,
   intent: "encourage",
   posterFrame: neutralFrame,
@@ -159,11 +165,18 @@ export function getRobotTimelinePosition(
   return { completed: false, frameIndex: timelineFrame };
 }
 
-export function getRobotFramePlacement(stage: RobotStage, frame: RobotFrame): RobotFramePlacement {
+export function getRobotFramePlacement(
+  stage: RobotStage,
+  frame: RobotFrame,
+  frameScale = 1,
+): RobotFramePlacement {
+  const width = frame.width * frameScale;
+  const height = frame.height * frameScale;
+
   return {
-    height: frame.height,
-    width: frame.width,
-    x: (stage.width - frame.width) / 2,
-    y: stage.height - frame.height,
+    height,
+    width,
+    x: (stage.width - width) / 2,
+    y: stage.height - height,
   };
 }
