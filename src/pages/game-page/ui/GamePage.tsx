@@ -89,7 +89,7 @@ export function GamePage() {
             <span className="hidden sm:inline">{modeLabel}</span>
           </span>
         }
-        title={mode === "solo" ? `Вопрос ${playerStats.answered + 1}` : `Раунд ${currentRound}`}
+        title={mode === "solo" ? `Вопрос ${currentRound}` : `Раунд ${currentRound}`}
         onBack={() => setExitDialogOpen(true)}
       />
 

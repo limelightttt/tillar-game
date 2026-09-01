@@ -149,9 +149,15 @@ export function WordComposer({
         >
           <RotateCcw aria-hidden="true" className="size-4" />
         </Button>
-        <Button disabled={disabled || !complete} fullWidth onClick={onSubmit}>
+        <Button
+          aria-label="Проверить слово"
+          className="px-3"
+          disabled={disabled || !complete}
+          fullWidth
+          onClick={onSubmit}
+        >
           <Check aria-hidden="true" className="size-4" />
-          Проверить слово
+          Проверить
         </Button>
       </div>
     </div>
