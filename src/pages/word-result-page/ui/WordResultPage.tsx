@@ -71,7 +71,7 @@ export function WordResultPage() {
       botStats={botStats}
       categoryIcon={<CategoryIcon categoryId={category?.id ?? "all"} />}
       categoryLabel={category?.label ?? "Все темы"}
-      gameLabel="Четыре картинки / слово"
+      gameLabel="4 картинки / слово"
       isSolo={isSolo}
       playerStats={playerStats}
       robotVariant={tone === "success" ? "celebrate" : tone === "danger" ? "encourage" : "idle"}

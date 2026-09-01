@@ -117,20 +117,23 @@ export function GameResultView({
   const accuracy = playerStats.answered > 0 ? playerStats.correct / playerStats.answered : 0;
 
   return (
-    <div className="app-noise min-h-dvh px-4 py-5 sm:px-6 sm:py-8">
-      <main className="mx-auto w-full max-w-4xl">
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-2.5">
-          <TillarLogo />
-          <div className="flex flex-wrap justify-end gap-2">
-            <span className="rounded-full border border-line bg-white px-3 py-2 text-xs font-black text-muted shadow-sm">
-              {gameLabel}
+    <div className="app-noise min-h-dvh">
+      <header className="tillar-header mx-auto mb-5 flex w-full max-w-4xl items-center justify-between gap-3 rounded-b-[2rem] px-4 py-5 text-white sm:mb-6 sm:rounded-b-[2.4rem] sm:px-6 lg:px-8">
+        <TillarLogo badgeClassName="hidden sm:inline" className="shrink-0" />
+        <div className="min-w-0 text-right">
+          <p className="truncate text-[0.65rem] font-black uppercase tracking-[0.18em] text-cyan">
+            {gameLabel}
+          </p>
+          <p className="mt-1 flex items-center justify-end gap-1.5 text-xs font-bold text-white/70">
+            <span aria-hidden="true" className="shrink-0 text-cyan">
+              {categoryIcon}
             </span>
-            <span className="rounded-full border border-line bg-white px-3 py-2 text-xs font-black text-muted shadow-sm">
-              <span aria-hidden="true">{categoryIcon}</span> {categoryLabel}
-            </span>
-          </div>
+            <span className="truncate">{categoryLabel}</span>
+          </p>
         </div>
+      </header>
 
+      <main className="safe-bottom mx-auto w-full max-w-4xl px-4 pb-8 sm:px-6">
         <section className="animate-rise relative overflow-hidden rounded-[2.25rem] border border-white/80 bg-white p-5 shadow-[0_30px_90px_-38px_rgba(37,28,82,0.5)] sm:p-8 lg:p-10">
           <div className="absolute -right-24 -top-20 size-72 rounded-full bg-primary-soft blur-3xl" />
           <div className="relative grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-center">

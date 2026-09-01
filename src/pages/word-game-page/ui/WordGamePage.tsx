@@ -98,7 +98,7 @@ export function WordGamePage() {
             <span className="hidden sm:inline">{modeLabel}</span>
           </span>
         }
-        title={mode === "solo" ? `Слово ${playerStats.answered + 1}` : `Раунд ${currentRound}`}
+        title={mode === "solo" ? `Слово ${currentRound}` : `Раунд ${currentRound}`}
         onBack={() => setExitDialogOpen(true)}
       />
 

@@ -40,7 +40,7 @@ export function Modal({
     <dialog
       aria-label={label}
       className={cn(
-        "modal-dialog m-auto max-h-[calc(100dvh-1rem)] w-[min(92vw,34rem)] overflow-y-auto overscroll-contain rounded-[2rem] border-0 bg-transparent p-0 text-foreground backdrop:bg-ink/55 backdrop:backdrop-blur-sm sm:max-h-[calc(100dvh-2rem)]",
+        "modal-dialog m-auto max-h-[calc(100dvh-1rem)] w-[min(92vw,34rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] border-0 bg-transparent p-0 text-foreground backdrop:bg-ink/55 backdrop:backdrop-blur-sm sm:max-h-[calc(100dvh-2rem)]",
         className,
       )}
       ref={dialogRef}

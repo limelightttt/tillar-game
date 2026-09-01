@@ -44,3 +44,32 @@ test("word-game selection starts the existing word flow", async ({ page }) => {
   await expect(page.getByRole("group", { name: "Составление слова" })).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
+
+test("two-picture result keeps the branded UI flow", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Начать игру", exact: true }).click();
+  await page.getByRole("button", { name: "Завершить игру" }).click();
+  await page.getByRole("button", { name: "Завершить", exact: true }).click();
+
+  await expect(page.getByLabel("TILLAR Games")).toBeVisible();
+  await expect(page.getByText("2 картинки", { exact: true })).toBeVisible();
+  await expect(page.getByText("Сессия завершена", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Играть ещё" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "На главную" })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("word-game result keeps the branded UI flow", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: /Четыре картинки/ }).click();
+  await page.getByRole("button", { name: "Начать игру", exact: true }).click();
+  await page.getByRole("button", { name: "Завершить игру" }).click();
+  await page.getByRole("button", { name: "Завершить", exact: true }).click();
+
+  await expect(page.getByLabel("TILLAR Games")).toBeVisible();
+  await expect(page.getByText("4 картинки / слово", { exact: true })).toBeVisible();
+  await expect(page.getByText("Сессия завершена", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Играть ещё" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "На главную" })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
