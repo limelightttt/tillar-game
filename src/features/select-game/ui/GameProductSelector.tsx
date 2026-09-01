@@ -2,6 +2,7 @@ import { Check, Grid2X2Plus, Images } from "lucide-react";
 
 import { type GameProductId, gameProducts } from "@/entities/game-product";
 
+import { useI18n } from "@/shared/config";
 import { cn } from "@/shared/lib";
 
 interface GameProductSelectorProps {
@@ -15,23 +16,25 @@ const productIcons = {
 } as const satisfies Record<GameProductId, typeof Images>;
 
 export function GameProductSelector({ onChange, value }: GameProductSelectorProps) {
+  const { t } = useI18n();
+
   return (
     <section aria-labelledby="game-product-title" className="mb-5">
       <div className="mb-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.16em] text-primary">
-            TILLAR Games
+            {t("selector.eyebrow")}
           </p>
           <h1
             className="mt-0.5 text-xl font-black tracking-[-0.04em] text-foreground sm:text-2xl"
             id="game-product-title"
           >
-            Выбери игру
+            {t("selector.title")}
           </h1>
         </div>
       </div>
 
-      <div aria-label="Игровой продукт" className="grid gap-2.5 sm:grid-cols-2" role="group">
+      <div aria-label={t("selector.group")} className="grid gap-2.5 sm:grid-cols-2" role="group">
         {gameProducts.map((product) => {
           const selected = value === product.id;
           const Icon = productIcons[product.id];
@@ -58,11 +61,13 @@ export function GameProductSelector({ onChange, value }: GameProductSelectorProp
                 <Icon aria-hidden="true" className="size-5" />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block font-black tracking-[-0.025em]">{product.title}</span>
+                <span className="block font-black tracking-[-0.025em]">
+                  {t(product.id === "two-pictures" ? "product.two.title" : "product.word.title")}
+                </span>
                 <span
                   className={cn("mt-0.5 block text-xs", selected ? "text-white/58" : "text-muted")}
                 >
-                  {product.shortTitle}
+                  {t(product.id === "two-pictures" ? "product.two.short" : "product.word.short")}
                 </span>
               </span>
               <span

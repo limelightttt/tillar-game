@@ -40,7 +40,8 @@
 html {
   min-width: 320px;
   min-height: 100%;
-  background: #f3f7fb;
+  background: #071f3d;
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -80,6 +81,9 @@ button:disabled {
 
 #root {
   min-height: 100vh;
+  background:
+    radial-gradient(circle at 4% 10%, rgb(34 180 244 / 0.12), transparent 24rem),
+    radial-gradient(circle at 96% 0%, rgb(8 124 240 / 0.12), transparent 30rem), #f3f7fb;
 }
 
 dialog::backdrop {

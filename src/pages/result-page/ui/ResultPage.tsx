@@ -4,10 +4,11 @@ import { GameResultView } from "@/widgets/game-result";
 import { useGameSessionStore } from "@/entities/game-session";
 import { CategoryIcon, questionCategories } from "@/entities/question";
 
-import { routes } from "@/shared/config";
+import { routes, useI18n } from "@/shared/config";
 
 export function ResultPage() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const status = useGameSessionStore((state) => state.status);
   const mode = useGameSessionStore((state) => state.mode);
   const categoryId = useGameSessionStore((state) => state.selectedCategoryId);
@@ -29,22 +30,22 @@ export function ResultPage() {
   const category = questionCategories.find((item) => item.id === categoryId);
   const title = isSolo
     ? playerStats.answered === 0
-      ? "До следующей попытки!"
+      ? t("result.picture.emptyTitle")
       : accuracy >= 0.7
-        ? "Отличная разминка!"
-        : "Хорошее начало!"
+        ? t("result.picture.goodTitle")
+        : t("result.picture.startTitle")
     : playerWon
-      ? "Победа!"
+      ? t("result.picture.winTitle")
       : draw
-        ? "Идеальная ничья"
-        : "Реванш?";
+        ? t("result.picture.drawTitle")
+        : t("result.picture.loseTitle");
   const subtitle = isSolo
     ? playerStats.answered === 0
-      ? "Возвращайся, когда будешь готов продолжить игру."
-      : "Каждый ответ добавил ещё один факт в твою копилку знаний."
+      ? t("result.picture.emptyText")
+      : t("result.picture.soloText")
     : finishReason === "out-of-lives"
-      ? "Матч завершился досрочно: один из игроков потерял все жизни."
-      : "Восемь раундов позади — результат определён по ответам и времени.";
+      ? t("result.picture.livesText")
+      : t("result.picture.roundsText");
   const tone = isSolo
     ? playerStats.answered === 0
       ? "neutral"
@@ -70,12 +71,12 @@ export function ResultPage() {
     <GameResultView
       botStats={botStats}
       categoryIcon={<CategoryIcon categoryId={category?.id ?? "all"} />}
-      categoryLabel={category?.label ?? "Все темы"}
-      gameLabel="2 картинки"
+      categoryLabel={t(`category.${category?.id ?? "all"}`)}
+      gameLabel={t("product.two.header")}
       isSolo={isSolo}
       playerStats={playerStats}
       robotVariant={tone === "success" ? "celebrate" : tone === "danger" ? "encourage" : "idle"}
-      statusLabel={isSolo ? "Сессия завершена" : "Результат дуэли"}
+      statusLabel={t(isSolo ? "result.sessionFinished" : "result.duelFinished")}
       subtitle={subtitle}
       title={title}
       tone={tone}

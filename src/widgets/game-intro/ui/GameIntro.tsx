@@ -6,59 +6,43 @@ import {
   LetterText,
   Lightbulb,
 } from "lucide-react";
-import type { ReactNode } from "react";
 
 import { type GameProductId } from "@/entities/game-product";
 
+import { type TranslationKey, useI18n } from "@/shared/config";
 import { RobotSequence } from "@/shared/ui/robot-sequence";
 
 const introContent = {
   "two-pictures": {
     code: "01",
-    eyebrow: "Две картинки",
-    headline: (
-      <>
-        Выбирай.
-        <br />
-        <span className="text-cyan">Узнавай.</span>
-        <br />
-        Запоминай.
-      </>
-    ),
-    description: "Один вопрос, две иллюстрации и короткий факт, который останется с тобой.",
+    eyebrowKey: "intro.two.eyebrow",
+    lineKeys: ["intro.two.line1", "intro.two.line2", "intro.two.line3"],
+    descriptionKey: "intro.two.description",
     features: [
-      { icon: Images, text: "2 картинки" },
-      { icon: Brain, text: "факт после ответа" },
-      { icon: InfinityIcon, text: "без уровней" },
+      { icon: Images, textKey: "intro.two.feature1" },
+      { icon: Brain, textKey: "intro.two.feature2" },
+      { icon: InfinityIcon, textKey: "intro.two.feature3" },
     ],
   },
   "four-pictures-word": {
     code: "02",
-    eyebrow: "Четыре картинки / слово",
-    headline: (
-      <>
-        Замечай.
-        <br />
-        <span className="text-cyan">Собирай.</span>
-        <br />
-        Открывай.
-      </>
-    ),
-    description: "Четыре визуальные подсказки ведут к одному слову — собери его из букв.",
+    eyebrowKey: "intro.word.eyebrow",
+    lineKeys: ["intro.word.line1", "intro.word.line2", "intro.word.line3"],
+    descriptionKey: "intro.word.description",
     features: [
-      { icon: Grid2X2Plus, text: "4 подсказки" },
-      { icon: LetterText, text: "собери слово" },
-      { icon: Lightbulb, text: "объяснение ответа" },
+      { icon: Grid2X2Plus, textKey: "intro.word.feature1" },
+      { icon: LetterText, textKey: "intro.word.feature2" },
+      { icon: Lightbulb, textKey: "intro.word.feature3" },
     ],
   },
 } as const satisfies Record<
   GameProductId,
   {
     code: string;
-    description: string;
-    eyebrow: string;
-    features: readonly { icon: typeof Images; text: string }[];
-    headline: ReactNode;
+    descriptionKey: TranslationKey;
+    eyebrowKey: TranslationKey;
+    features: readonly { icon: typeof Images; textKey: TranslationKey }[];
+    lineKeys: readonly [TranslationKey, TranslationKey, TranslationKey];
   }
 >;
 
@@ -67,6 +51,7 @@ interface GameIntroProps {
 }
 
 export function GameIntro({ gameId }: GameIntroProps) {
+  const { t } = useI18n();
   const content = introContent[gameId];
 
   return (
@@ -88,26 +73,30 @@ export function GameIntro({ gameId }: GameIntroProps) {
         <div>
           <div className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-white/75 backdrop-blur">
             <span className="size-2 shrink-0 rounded-full bg-cyan shadow-[0_0_16px_rgba(18,203,228,0.9)]" />
-            <span className="truncate">{content.eyebrow}</span>
+            <span className="truncate">{t(content.eyebrowKey)}</span>
           </div>
 
           <h1 className="text-balance max-w-xl text-[clamp(2.5rem,6vw,4.5rem)] font-black leading-[0.94] tracking-[-0.06em]">
-            {content.headline}
+            {t(content.lineKeys[0])}
+            <br />
+            <span className="text-cyan">{t(content.lineKeys[1])}</span>
+            <br />
+            {t(content.lineKeys[2])}
           </h1>
           <p className="mt-5 max-w-md text-base leading-relaxed text-white/62 sm:text-lg">
-            {content.description}
+            {t(content.descriptionKey)}
           </p>
 
-          <ul className="mt-7 flex flex-wrap gap-2.5" aria-label="Особенности игры">
+          <ul className="mt-7 flex flex-wrap gap-2.5" aria-label={t("intro.features")}>
             {content.features.map((feature) => {
               const Icon = feature.icon;
               return (
                 <li
                   className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] px-3 text-xs font-bold text-white/72 backdrop-blur"
-                  key={feature.text}
+                  key={feature.textKey}
                 >
                   <Icon aria-hidden="true" className="size-3.5 text-cyan" />
-                  {feature.text}
+                  {t(feature.textKey)}
                 </li>
               );
             })}

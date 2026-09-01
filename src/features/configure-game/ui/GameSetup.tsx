@@ -11,6 +11,7 @@ import {
 } from "@/entities/question";
 import { filterWordPuzzlesByCategory, wordPuzzles } from "@/entities/word-puzzle";
 
+import { type TranslationKey, useI18n } from "@/shared/config";
 import { cn } from "@/shared/lib";
 import { Button } from "@/shared/ui";
 
@@ -26,24 +27,24 @@ interface GameSetupProps {
 const modes = [
   {
     id: "solo",
-    title: "Играть одному",
-    description: "Факты после ответов · без ограничения по времени",
+    titleKey: "setup.solo.title",
+    descriptionKey: "setup.solo.description",
     icon: UserRound,
-    badge: "Познавательно",
+    badgeKey: "setup.solo.badge",
   },
   {
     id: "duel-demo",
-    title: "Дуэль с ботом",
-    description: "3 жизни · 8 раундов",
+    titleKey: "setup.duel.title",
+    descriptionKey: "setup.duel.description",
     icon: UsersRound,
-    badge: "Демо",
+    badgeKey: "setup.duel.badge",
   },
 ] as const satisfies readonly {
-  badge: string;
-  description: string;
+  badgeKey: TranslationKey;
+  descriptionKey: TranslationKey;
   icon: typeof UserRound;
   id: GameMode;
-  title: string;
+  titleKey: TranslationKey;
 }[];
 
 export function GameSetup({
@@ -54,6 +55,7 @@ export function GameSetup({
   onModeChange,
   onStart,
 }: GameSetupProps) {
+  const { t } = useI18n();
   const getContentCount = (targetCategoryId: CategoryId) =>
     gameId === "two-pictures"
       ? filterQuestionsByCategory(pictureQuestions, targetCategoryId).length
@@ -69,13 +71,13 @@ export function GameSetup({
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
           <p className="mb-1 text-xs font-black uppercase tracking-[0.18em] text-primary">
-            Режим и тема
+            {t("setup.eyebrow")}
           </p>
           <h2
             className="text-2xl font-black tracking-[-0.045em] text-foreground"
             id="game-setup-title"
           >
-            Как играем?
+            {t("setup.title")}
           </h2>
         </div>
         <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-primary-soft text-primary">
@@ -83,7 +85,7 @@ export function GameSetup({
         </span>
       </div>
 
-      <div aria-label="Режим игры" className="grid gap-3" role="group">
+      <div aria-label={t("setup.modeGroup")} className="grid gap-3" role="group">
         {modes.map((item) => {
           const Icon = item.icon;
           const selected = mode === item.id;
@@ -114,14 +116,14 @@ export function GameSetup({
               <span className="min-w-0 flex-1">
                 <span className="flex flex-wrap items-center gap-2">
                   <span className="font-black tracking-[-0.02em] text-foreground">
-                    {item.title}
+                    {t(item.titleKey)}
                   </span>
                   <span className="rounded-full bg-white px-2 py-1 text-[0.62rem] font-black uppercase tracking-[0.08em] text-muted">
-                    {item.badge}
+                    {t(item.badgeKey)}
                   </span>
                 </span>
                 <span className="mt-1 block text-sm leading-snug text-muted">
-                  {item.description}
+                  {t(item.descriptionKey)}
                 </span>
               </span>
               <span
@@ -141,11 +143,13 @@ export function GameSetup({
 
       <div className="mt-7">
         <div className="mb-3 flex items-end justify-between gap-3">
-          <p className="text-sm font-black text-foreground">Выбери тему</p>
-          <p className="text-xs font-bold text-muted">Доступно: {availableQuestions}</p>
+          <p className="text-sm font-black text-foreground">{t("setup.category")}</p>
+          <p className="text-xs font-bold text-muted">
+            {t("setup.available", { count: availableQuestions })}
+          </p>
         </div>
         <div
-          aria-label="Категория вопросов"
+          aria-label={t("setup.categoryGroup")}
           className="flex max-h-40 flex-wrap gap-2 overflow-y-auto pr-1"
           role="group"
         >
@@ -167,7 +171,7 @@ export function GameSetup({
                 onClick={() => onCategoryChange(category.id)}
               >
                 <CategoryIcon categoryId={category.id} />
-                {category.label}
+                {t(`category.${category.id}`)}
                 <span className={cn("text-[0.65rem]", selected ? "text-white/55" : "text-muted")}>
                   {count}
                 </span>
@@ -178,7 +182,7 @@ export function GameSetup({
       </div>
 
       <Button className="mt-5" fullWidth size="large" onClick={onStart}>
-        Начать игру
+        {t("setup.start")}
         <span aria-hidden="true">→</span>
       </Button>
     </section>

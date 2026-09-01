@@ -2,8 +2,9 @@ import { type ReactNode } from "react";
 
 import { ArrowRight, Bot, Check, Clock3, Home, RotateCcw, Trophy, X } from "lucide-react";
 
+import { useI18n } from "@/shared/config";
 import { cn, formatPercent, formatSeconds } from "@/shared/lib";
-import { Button, TillarLogo } from "@/shared/ui";
+import { Button, LanguageSelector, TillarLogo } from "@/shared/ui";
 import { RobotSequence, type RobotSequenceVariant } from "@/shared/ui/robot-sequence";
 
 export interface GameResultStats {
@@ -66,6 +67,7 @@ function PlayerResultRow({
   label: string;
   stats: GameResultStats;
 }) {
+  const { language, t } = useI18n();
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2.5 rounded-[1.15rem] bg-soft/75 p-3.5 sm:grid-cols-[minmax(0,1fr)_auto_auto_auto] sm:gap-3">
       <div className="flex min-w-0 items-center gap-2.5">
@@ -78,7 +80,7 @@ function PlayerResultRow({
           {bot ? (
             <Bot aria-hidden="true" className="size-4" />
           ) : (
-            <span className="text-xs font-black">ВЫ</span>
+            <span className="text-xs font-black">{t("common.you").toUpperCase()}</span>
           )}
         </span>
         <span className="truncate text-sm font-black text-foreground">{label}</span>
@@ -91,18 +93,18 @@ function PlayerResultRow({
       </span>
       <span className="col-span-3 flex items-center justify-end gap-1 text-xs font-bold text-muted sm:col-span-1">
         <Clock3 aria-hidden="true" className="size-3.5" />
-        {stats.answered > 0 ? formatSeconds(stats.averageResponseTimeMs) : "—"}
+        {stats.answered > 0 ? formatSeconds(stats.averageResponseTimeMs, language) : "—"}
       </span>
     </div>
   );
 }
 
 export function GameResultView({
-  botLabel = "Tilli · бот",
+  botLabel,
   botStats,
   categoryIcon,
   categoryLabel,
-  comparisonNote = "При равном счёте побеждает меньшее суммарное время ответа.",
+  comparisonNote,
   gameLabel,
   isSolo,
   onGoHome,
@@ -114,11 +116,12 @@ export function GameResultView({
   title,
   tone,
 }: GameResultViewProps) {
+  const { t } = useI18n();
   const accuracy = playerStats.answered > 0 ? playerStats.correct / playerStats.answered : 0;
 
   return (
     <div className="app-noise min-h-dvh">
-      <header className="tillar-header mx-auto mb-5 flex w-full max-w-4xl items-center justify-between gap-3 rounded-b-[2rem] px-4 py-5 text-white sm:mb-6 sm:rounded-b-[2.4rem] sm:px-6 lg:px-8">
+      <header className="tillar-header mx-auto mb-5 grid w-full max-w-4xl grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2.5 rounded-b-[2rem] px-4 py-5 text-white sm:mb-6 sm:gap-4 sm:rounded-b-[2.4rem] sm:px-6 lg:px-8">
         <TillarLogo badgeClassName="hidden sm:inline" className="shrink-0" />
         <div className="min-w-0 text-right">
           <p className="truncate text-[0.65rem] font-black uppercase tracking-[0.18em] text-cyan">
@@ -131,6 +134,7 @@ export function GameResultView({
             <span className="truncate">{categoryLabel}</span>
           </p>
         </div>
+        <LanguageSelector />
       </header>
 
       <main className="safe-bottom mx-auto w-full max-w-4xl px-4 pb-8 sm:px-6">
@@ -177,32 +181,32 @@ export function GameResultView({
           </div>
 
           <div className="relative mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-            <StatCard label="Раундов" value={playerStats.answered} />
-            <StatCard label="Правильно" tone="success" value={playerStats.correct} />
+            <StatCard label={t("result.rounds")} value={playerStats.answered} />
+            <StatCard label={t("result.correct")} tone="success" value={playerStats.correct} />
             <StatCard
-              label="Ошибок"
+              label={t("result.errors")}
               tone={playerStats.errors > 0 ? "danger" : "default"}
               value={playerStats.errors}
             />
-            <StatCard label="Точность" value={formatPercent(accuracy)} />
+            <StatCard label={t("result.accuracy")} value={formatPercent(accuracy)} />
           </div>
 
           {!isSolo ? (
             <div className="relative mt-5 space-y-2.5 rounded-[1.5rem] border border-line bg-white p-3">
-              <PlayerResultRow label="Вы" stats={playerStats} />
-              <PlayerResultRow bot label={botLabel} stats={botStats} />
+              <PlayerResultRow label={t("common.you")} stats={playerStats} />
+              <PlayerResultRow bot label={botLabel ?? t("common.bot")} stats={botStats} />
               <p className="px-1 pt-1 text-center text-[0.67rem] font-bold text-muted">
-                {comparisonNote}
+                {comparisonNote ?? t("result.comparison")}
               </p>
             </div>
           ) : (
             <div className="relative mt-5 rounded-[1.4rem] bg-soft/70 p-4">
               <p className="text-xs font-black uppercase tracking-[0.11em] text-muted">
-                Лучшая серия
+                {t("result.bestStreak")}
               </p>
               <p className="mt-1 flex items-baseline gap-2 text-2xl font-black tracking-[-0.04em] text-foreground">
                 {playerStats.bestStreak}
-                <span className="text-sm font-bold text-muted">ответа подряд</span>
+                <span className="text-sm font-bold text-muted">{t("result.streakSuffix")}</span>
               </p>
             </div>
           )}
@@ -210,11 +214,11 @@ export function GameResultView({
           <div className="relative mt-6 grid gap-2.5 sm:grid-cols-2">
             <Button fullWidth size="large" onClick={onPlayAgain}>
               <RotateCcw aria-hidden="true" className="size-4" />
-              Играть ещё
+              {t("result.playAgain")}
             </Button>
             <Button fullWidth size="large" variant="secondary" onClick={onGoHome}>
               <Home aria-hidden="true" className="size-4" />
-              На главную
+              {t("result.home")}
             </Button>
           </div>
         </section>

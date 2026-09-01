@@ -3,6 +3,7 @@ import { ArrowRight, Check, Lightbulb, X } from "lucide-react";
 import { type WordEducationalFeedback, type WordPlayerAnswer } from "@/entities/word-game-session";
 import { type WordPuzzle } from "@/entities/word-puzzle";
 
+import { useI18n } from "@/shared/config";
 import { cn } from "@/shared/lib";
 import { Button, Modal } from "@/shared/ui";
 import { RobotSequence } from "@/shared/ui/robot-sequence";
@@ -22,12 +23,13 @@ export function WordFeedbackModal({
   open,
   puzzle,
 }: WordFeedbackModalProps) {
+  const { t } = useI18n();
   if (!puzzle || !answer || !feedback) return null;
 
   const correct = feedback.kind === "correct";
 
   return (
-    <Modal label={correct ? "Правильный ответ" : "Неправильный ответ"} open={open}>
+    <Modal label={t(correct ? "feedback.correctLabel" : "feedback.wrongLabel")} open={open}>
       <div className="absolute -right-16 -top-20 size-52 rounded-full bg-primary-soft blur-2xl" />
       <div className="relative grid gap-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center sm:gap-5">
         <div
@@ -59,10 +61,10 @@ export function WordFeedbackModal({
             )}
           </span>
           <p className="text-xs font-black uppercase tracking-[0.16em] text-muted">
-            {correct ? "Да, правильно" : "Есть новая подсказка"}
+            {t(correct ? "feedback.yes" : "feedback.hint")}
           </p>
           <h2 className="mt-1 text-2xl font-black tracking-[-0.05em] text-foreground sm:text-3xl">
-            {correct ? "Слово найдено!" : "Запомним слово"}
+            {t(correct ? "feedback.wordFound" : "feedback.rememberWord")}
           </h2>
         </div>
       </div>
@@ -75,11 +77,11 @@ export function WordFeedbackModal({
       >
         {!correct ? (
           <p className="text-xs font-black uppercase tracking-[0.12em] text-danger">
-            Твой ответ: {feedback.submittedWord}
+            {t("feedback.yourAnswer", { answer: feedback.submittedWord })}
           </p>
         ) : null}
         <p className="mt-1 text-[0.68rem] font-black uppercase tracking-[0.15em] text-muted">
-          Правильное слово
+          {t("feedback.correctWord")}
         </p>
         <p className="mt-1 break-words text-2xl font-black tracking-[0.06em] text-foreground sm:text-3xl sm:tracking-[0.08em]">
           {feedback.correctWord}
@@ -89,13 +91,13 @@ export function WordFeedbackModal({
       <div className="relative mt-3 rounded-[1.25rem] border border-primary/15 bg-primary-soft p-4">
         <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.12em] text-primary">
           <Lightbulb aria-hidden="true" className="size-4" />
-          Почему это слово
+          {t("feedback.whyWord")}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-foreground/82">{feedback.explanation}</p>
       </div>
 
       <Button className="relative mt-5" fullWidth size="large" onClick={onContinue}>
-        Продолжить
+        {t("common.continue")}
         <ArrowRight aria-hidden="true" className="size-4" />
       </Button>
     </Modal>

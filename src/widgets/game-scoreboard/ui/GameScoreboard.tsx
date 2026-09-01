@@ -1,5 +1,6 @@
 import { Bot, Check, Flame, Heart, Timer, UserRound } from "lucide-react";
 
+import { useI18n } from "@/shared/config";
 import { cn, formatSeconds } from "@/shared/lib";
 import { ProgressBar } from "@/shared/ui";
 
@@ -22,8 +23,12 @@ interface GameScoreboardProps {
 }
 
 function Lives({ label, maximum, value }: { label: string; maximum: number; value: number }) {
+  const { t } = useI18n();
   return (
-    <span aria-label={`${label}: ${value} из ${maximum}`} className="inline-flex gap-1">
+    <span
+      aria-label={t("score.livesValue", { label, maximum, value })}
+      className="inline-flex gap-1"
+    >
       {Array.from({ length: maximum }, (_, index) => (
         <Heart
           aria-hidden="true"
@@ -39,13 +44,14 @@ function Lives({ label, maximum, value }: { label: string; maximum: number; valu
 }
 
 function SoloScoreboard({ stats }: { stats: ScoreStats }) {
+  const { language, t } = useI18n();
   const values = [
-    { icon: Check, label: "Верно", value: stats.correct },
-    { icon: Flame, label: "Лучшая серия", value: stats.bestStreak },
+    { icon: Check, label: t("score.correct"), value: stats.correct },
+    { icon: Flame, label: t("score.bestStreak"), value: stats.bestStreak },
     {
       icon: Timer,
-      label: "Среднее время",
-      value: stats.answered > 0 ? formatSeconds(stats.averageResponseTimeMs) : "—",
+      label: t("score.averageTime"),
+      value: stats.answered > 0 ? formatSeconds(stats.averageResponseTimeMs, language) : "—",
     },
   ] as const;
 
@@ -89,6 +95,7 @@ function DuelPlayerCard({
   maximumLives: number;
   stats: ScoreStats;
 }) {
+  const { language, t } = useI18n();
   const Icon = actor === "player" ? UserRound : Bot;
 
   return (
@@ -109,9 +116,9 @@ function DuelPlayerCard({
           </strong>
         </span>
         <span className="mt-1 flex items-center justify-between gap-1">
-          <Lives label={`Жизни ${label}`} maximum={maximumLives} value={lives} />
+          <Lives label={t("score.lives", { name: label })} maximum={maximumLives} value={lives} />
           <span className="text-[0.62rem] font-bold text-muted">
-            {stats.answered > 0 ? formatSeconds(stats.averageResponseTimeMs) : "—"}
+            {stats.answered > 0 ? formatSeconds(stats.averageResponseTimeMs, language) : "—"}
           </span>
         </span>
       </span>
@@ -129,26 +136,27 @@ export function GameScoreboard({
   roundCount = 8,
   startingLives = 3,
 }: GameScoreboardProps) {
+  const { t } = useI18n();
   if (mode === "solo") {
     return <SoloScoreboard stats={playerStats} />;
   }
 
   return (
     <section
-      aria-label="Счёт дуэли"
+      aria-label={t("score.duel")}
       className="rounded-[1.55rem] border border-line bg-soft/75 p-2.5 sm:p-3"
     >
       <div className="grid gap-2.5 sm:grid-cols-2">
         <DuelPlayerCard
           actor="player"
-          label="Вы"
+          label={t("common.you")}
           lives={playerLives}
           maximumLives={startingLives}
           stats={playerStats}
         />
         <DuelPlayerCard
           actor="bot"
-          label="Tilli · бот"
+          label={t("common.bot")}
           lives={botLives}
           maximumLives={startingLives}
           stats={botStats}
@@ -157,7 +165,7 @@ export function GameScoreboard({
       <div className="mt-3 flex items-center gap-3 px-1">
         <ProgressBar
           className="flex-1"
-          label={`Раунд ${currentRound} из ${roundCount}`}
+          label={t("score.roundProgress", { current: currentRound, total: roundCount })}
           value={(currentRound / roundCount) * 100}
         />
         <span className="shrink-0 text-[0.65rem] font-black uppercase tracking-[0.1em] text-muted">

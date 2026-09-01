@@ -16,6 +16,7 @@ import {
   WordPuzzleArtwork,
 } from "@/entities/word-puzzle";
 
+import { useI18n } from "@/shared/config";
 import { cn, formatSeconds } from "@/shared/lib";
 
 interface WordPuzzleBoardProps {
@@ -40,6 +41,7 @@ function DuelRoundStatus({
   botAnswer: WordBotAnswer | null;
   playerAnswer: WordPlayerAnswer | null;
 }) {
+  const { language, t } = useI18n();
   if (!playerAnswer) return null;
 
   return (
@@ -67,21 +69,23 @@ function DuelRoundStatus({
         </span>
         <span>
           <strong className="font-black text-foreground">
-            {playerAnswer.isCorrect ? "Слово принято" : "Ошибка · минус жизнь"}
+            {t(playerAnswer.isCorrect ? "duel.wordAccepted" : "duel.lifeLost")}
           </strong>
-          <span className="ml-2 text-muted">{formatSeconds(playerAnswer.responseTimeMs)}</span>
+          <span className="ml-2 text-muted">
+            {formatSeconds(playerAnswer.responseTimeMs, language)}
+          </span>
         </span>
       </div>
       <div className="flex items-center gap-2 font-bold text-muted">
         <Bot aria-hidden="true" className="size-4 text-primary" />
         {botAnswer ? (
           <span>
-            Бот {botAnswer.isCorrect ? "собрал слово" : "ошибся"} ·{" "}
-            {formatSeconds(botAnswer.responseTimeMs)}
+            {t(botAnswer.isCorrect ? "duel.botWordCorrect" : "duel.botWrong")} ·{" "}
+            {formatSeconds(botAnswer.responseTimeMs, language)}
           </span>
         ) : (
           <span className="inline-flex items-center gap-2">
-            Бот думает
+            {t("duel.botThinking")}
             <span className="inline-flex gap-1" aria-hidden="true">
               <span className="size-1 animate-pulse rounded-full bg-primary" />
               <span className="size-1 animate-pulse rounded-full bg-primary [animation-delay:120ms]" />
@@ -108,6 +112,7 @@ export function WordPuzzleBoard({
   selectedTileIds,
   status,
 }: WordPuzzleBoardProps) {
+  const { language, t } = useI18n();
   const category = questionCategories.find((item) => item.id === puzzle.categoryId);
 
   return (
@@ -115,11 +120,11 @@ export function WordPuzzleBoard({
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-2 text-xs font-black text-primary">
           <CategoryIcon categoryId={category?.id ?? "all"} />
-          {category?.label ?? "Головоломка"}
+          {category ? t(`category.${category.id}`) : t("board.puzzleFallback")}
         </div>
         <div className="inline-flex items-center gap-2 rounded-full border border-line bg-soft/65 px-3 py-2 text-xs font-black text-muted">
           <Clock3 aria-hidden="true" className="size-3.5" />
-          <span aria-live="off">{formatSeconds(elapsedResponseTimeMs)}</span>
+          <span aria-live="off">{formatSeconds(elapsedResponseTimeMs, language)}</span>
         </div>
       </div>
 
@@ -135,7 +140,7 @@ export function WordPuzzleBoard({
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)] lg:items-start lg:gap-6">
         <div
-          aria-label="Четыре визуальные подсказки"
+          aria-label={t("board.clues")}
           className="grid grid-cols-2 gap-2.5 sm:gap-3"
           role="group"
         >

@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import { AppRouter } from "@/app/router/AppRouter";
 
+import { I18nProvider } from "@/shared/config";
 import { preloadRobotActions } from "@/shared/ui/robot-sequence";
 
 export function App() {
@@ -20,8 +21,10 @@ export function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <AppRouter />
-    </BrowserRouter>
+    <I18nProvider>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </I18nProvider>
   );
 }

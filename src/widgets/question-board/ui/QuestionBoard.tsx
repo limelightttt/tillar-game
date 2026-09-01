@@ -14,6 +14,7 @@ import {
   type QuestionOptionId,
 } from "@/entities/question";
 
+import { useI18n } from "@/shared/config";
 import { cn, formatSeconds } from "@/shared/lib";
 
 interface QuestionBoardProps {
@@ -33,6 +34,7 @@ function DuelRoundStatus({
   botAnswer: BotAnswer | null;
   playerAnswer: PlayerAnswer | null;
 }) {
+  const { language, t } = useI18n();
   if (!playerAnswer) return null;
 
   return (
@@ -60,21 +62,23 @@ function DuelRoundStatus({
         </span>
         <span>
           <strong className="font-black text-foreground">
-            {playerAnswer.isCorrect ? "Ответ принят" : "Ошибка · минус жизнь"}
+            {t(playerAnswer.isCorrect ? "duel.answerAccepted" : "duel.lifeLost")}
           </strong>
-          <span className="ml-2 text-muted">{formatSeconds(playerAnswer.responseTimeMs)}</span>
+          <span className="ml-2 text-muted">
+            {formatSeconds(playerAnswer.responseTimeMs, language)}
+          </span>
         </span>
       </div>
       <div className="flex items-center gap-2 font-bold text-muted">
         <Bot aria-hidden="true" className="size-4 text-primary" />
         {botAnswer ? (
           <span>
-            Бот {botAnswer.isCorrect ? "ответил верно" : "ошибся"} ·{" "}
-            {formatSeconds(botAnswer.responseTimeMs)}
+            {t(botAnswer.isCorrect ? "duel.botCorrect" : "duel.botWrong")} ·{" "}
+            {formatSeconds(botAnswer.responseTimeMs, language)}
           </span>
         ) : (
           <span className="inline-flex items-center gap-2">
-            Бот думает
+            {t("duel.botThinking")}
             <span className="inline-flex gap-1" aria-hidden="true">
               <span className="size-1 animate-pulse rounded-full bg-primary" />
               <span className="size-1 animate-pulse rounded-full bg-primary [animation-delay:120ms]" />
@@ -96,6 +100,7 @@ export function QuestionBoard({
   question,
   status,
 }: QuestionBoardProps) {
+  const { language, t } = useI18n();
   const category = questionCategories.find((item) => item.id === question.categoryId);
 
   return (
@@ -103,11 +108,11 @@ export function QuestionBoard({
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-2 text-xs font-black text-primary">
           <CategoryIcon categoryId={category?.id ?? "all"} />
-          {category?.label ?? "Вопрос"}
+          {category ? t(`category.${category.id}`) : t("board.questionFallback")}
         </div>
         <div className="inline-flex items-center gap-2 rounded-full border border-line bg-soft/65 px-3 py-2 text-xs font-black text-muted">
           <Clock3 aria-hidden="true" className="size-3.5" />
-          <span aria-live="off">{formatSeconds(elapsedResponseTimeMs)}</span>
+          <span aria-live="off">{formatSeconds(elapsedResponseTimeMs, language)}</span>
         </div>
       </div>
 
