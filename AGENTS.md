@@ -122,6 +122,7 @@ src/entities/
 
 src/shared/
   config/routes.ts               Canonical client paths.
+  config/i18n/                   Typed RU/UZ/EN interface dictionaries and provider.
   lib/                           Domain-free utility functions only.
   ui/                            Generic UI primitives and the robot sequence renderer.
 
@@ -164,6 +165,7 @@ Unknown paths redirect to `/`. `HomePage` resets both in-memory sessions on moun
 | Game 2 runtime state/actions              | `src/entities/word-game-session/model/store.ts`                            |
 | Game 2 rules                              | `word-game-session/model/constants.ts`, `scoring.ts`, `timer.ts`, `bot.ts` |
 | Client routes                             | `src/shared/config/routes.ts`                                              |
+| Interface localization                    | `src/shared/config/i18n`                                                   |
 | Design tokens and global motion           | `src/app/styles/index.css`                                                 |
 | Robot timelines and timing                | `src/shared/ui/robot-sequence/robot-sequence.model.ts`                     |
 | Implemented/backend boundary              | `docs/IMPLEMENTATION_SCOPE.md`                                             |
@@ -275,6 +277,7 @@ If assets, frame order, dimensions, or timings change, verify the actual PNG met
 - Prefer standard responsive utilities and reusable theme tokens over new Tailwind arbitrary values such as `[...]`. Use an arbitrary value only when it represents a genuine one-off design constraint that Tailwind cannot express clearly; promote repeated values into a token or reusable component style.
 - Do not encode correctness through color alone.
 - Every animation and transition must respect `prefers-reduced-motion`.
+- Keep interface copy in the typed dictionaries under `src/shared/config/i18n`; authored quiz content remains entity-owned and Russian until a localized content contract exists.
 
 ## Testing and verification
 

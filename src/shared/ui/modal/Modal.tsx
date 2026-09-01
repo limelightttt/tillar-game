@@ -2,6 +2,7 @@ import { type ReactNode, useEffect, useRef } from "react";
 
 import { X } from "lucide-react";
 
+import { useI18n } from "@/shared/config";
 import { cn } from "@/shared/lib";
 
 interface ModalProps {
@@ -21,6 +22,7 @@ export function Modal({
   onClose,
   open,
 }: ModalProps) {
+  const { t } = useI18n();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -52,7 +54,7 @@ export function Modal({
       <div className="modal-surface relative overflow-hidden rounded-[2rem] border border-white/70 bg-white p-6 shadow-[0_30px_80px_-30px_rgba(24,20,52,0.55)] sm:p-8">
         {dismissible ? (
           <button
-            aria-label="Закрыть"
+            aria-label={t("common.close")}
             className="absolute right-4 top-4 z-20 grid size-11 place-items-center rounded-full bg-soft text-muted transition hover:text-foreground focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20"
             type="button"
             onClick={onClose}

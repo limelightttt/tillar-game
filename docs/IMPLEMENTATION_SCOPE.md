@@ -20,6 +20,7 @@ Production delivery also references TILLAR accounts, content administration, per
 - all ten categories plus `all`;
 - solo and explicitly labelled `duel-demo` modes;
 - common score, lives, timer, result, exit, and mascot presentation;
+- one persistent RU/UZ/EN interface language selector across home, game, and result headers;
 - no-repeat queue cycles;
 - typed, replaceable content/session seams;
 - typed analytics callbacks, without invented delivery endpoints.
@@ -70,7 +71,8 @@ The bot duel is not real multiplayer. Production integration needs confirmed TIL
 - content/CMS CRUD, roles, media upload, publication, hiding, and ordering;
 - persistent results and question history across devices;
 - analytics transport, consent, metric definitions, and retention;
-- final design tokens and localization.
+- final design tokens;
+- localized quiz/CMS content and its language fallback contract.
 
 Until those contracts exist, adding guessed `fetch` URLs or a made-up database schema would create incompatible product behavior. Current fixtures are valid offline content and are isolated so a confirmed API/CMS adapter can replace them.
 
@@ -81,7 +83,7 @@ Until those contracts exist, adding guessed `fetch` URLs or a made-up database s
 - A wrong answer costs one life and closes that player's attempt for the current round.
 - A player at zero lives loses immediately. Otherwise correct count wins, then total response time, then draw.
 - No answer deadline is imposed.
-- The current interface/content language is Russian.
+- The interface supports Russian, Uzbek, and English; local question and puzzle fixtures remain authored Russian content.
 - Audio is deferred until assets, licensing, volume rules, and product approval are available.
 
 ## Before production handoff

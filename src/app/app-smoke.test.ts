@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { createElement, type ReactNode } from "react";
 
 import { renderToStaticMarkup } from "react-dom/server";
 import { MemoryRouter } from "react-router-dom";
@@ -12,8 +12,14 @@ import { createEmptyAnswerStats } from "@/entities/game-session";
 import { pictureQuestions } from "@/entities/question";
 import { createLetterTiles, wordPuzzles } from "@/entities/word-puzzle";
 
+import { I18nProvider } from "@/shared/config";
+
+function renderLocalized(node: ReactNode) {
+  return renderToStaticMarkup(createElement(I18nProvider, null, node));
+}
+
 function renderRoute(path: string) {
-  return renderToStaticMarkup(
+  return renderLocalized(
     createElement(MemoryRouter, { initialEntries: [path] }, createElement(AppRouter)),
   );
 }
@@ -32,7 +38,7 @@ describe("application rendering", () => {
 
     if (!puzzle) throw new Error("Expected at least one word puzzle fixture");
 
-    const markup = renderToStaticMarkup(
+    const markup = renderLocalized(
       createElement(WordPuzzleBoard, {
         botAnswer: null,
         elapsedResponseTimeMs: 2_400,
@@ -55,7 +61,7 @@ describe("application rendering", () => {
   });
 
   it("renders an active question board", () => {
-    const markup = renderToStaticMarkup(
+    const markup = renderLocalized(
       createElement(QuestionBoard, {
         botAnswer: null,
         elapsedResponseTimeMs: 1_500,
@@ -80,7 +86,7 @@ describe("application rendering", () => {
       totalResponseTimeMs: 9_000,
       averageResponseTimeMs: 3_000,
     };
-    const markup = renderToStaticMarkup(
+    const markup = renderLocalized(
       createElement(GameScoreboard, {
         botLives: 3,
         botStats: createEmptyAnswerStats(),

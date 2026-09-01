@@ -1,26 +1,19 @@
-import { type ReactNode } from "react";
-
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import { TillarLogo } from "@/shared/ui";
+import { useI18n } from "@/shared/config";
+import { LanguageSelector, TillarLogo } from "@/shared/ui";
 
 interface AppHeaderProps {
   backLabel?: string;
   eyebrow?: string;
   onBack?: () => void;
-  rightSlot?: ReactNode;
   title?: string;
 }
 
-export function AppHeader({
-  backLabel = "Назад",
-  eyebrow,
-  onBack,
-  rightSlot,
-  title,
-}: AppHeaderProps) {
+export function AppHeader({ backLabel, eyebrow, onBack, title }: AppHeaderProps) {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const hasBackAction = Boolean(onBack);
 
   return (
@@ -28,7 +21,7 @@ export function AppHeader({
       <div className="flex min-w-0 items-center gap-3">
         {hasBackAction ? (
           <button
-            aria-label={backLabel}
+            aria-label={backLabel ?? t("common.back")}
             className="grid size-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 text-white shadow-sm backdrop-blur transition hover:bg-white/18 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cyan/30"
             type="button"
             onClick={onBack}
@@ -37,7 +30,7 @@ export function AppHeader({
           </button>
         ) : (
           <button
-            aria-label="На главную"
+            aria-label={t("common.home")}
             className="min-h-11 rounded-xl text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cyan/30"
             type="button"
             onClick={() => navigate("/")}
@@ -60,7 +53,7 @@ export function AppHeader({
         ) : null}
       </div>
 
-      {rightSlot ? <div className="flex shrink-0 items-center gap-2">{rightSlot}</div> : null}
+      <LanguageSelector />
     </header>
   );
 }

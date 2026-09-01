@@ -1,3 +1,5 @@
+import { useI18n } from "@/shared/config";
+
 import type { WordPuzzleImage } from "../model/types";
 
 interface WordPuzzleArtworkProps {
@@ -76,12 +78,13 @@ const fallbackTheme = {
 } as const;
 
 export function WordPuzzleArtwork({ className = "", image, index }: WordPuzzleArtworkProps) {
+  const { t } = useI18n();
   const themeKey = image.visualKey.split("-")[0] as keyof typeof artworkThemes;
   const theme = artworkThemes[themeKey] ?? fallbackTheme;
 
   return (
     <figure
-      aria-label={`Подсказка ${index + 1}: ${image.alt}`}
+      aria-label={t("board.clue", { label: image.alt, number: index + 1 })}
       className={`group relative isolate aspect-square overflow-hidden rounded-[1.35rem] border border-white/80 bg-gradient-to-br ${theme.background} ${className}`}
       role="img"
     >

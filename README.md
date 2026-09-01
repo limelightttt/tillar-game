@@ -10,6 +10,7 @@ Both games share one responsive platform shell, category selector, solo mode, cl
 ## Implemented product flow
 
 - one hub for choosing either game, a category, and a mode;
+- a persistent Russian, Uzbek, and English interface selector shared by every header;
 - all ten content categories plus `all`, with no difficulty levels;
 - queue cycles without repetition until the selected pool is exhausted;
 - Game 1: two accessible code-native illustrations and one-choice answering;
@@ -41,6 +42,7 @@ No TILLAR API contract was supplied. Therefore this repository does not invent e
 - Tailwind CSS 4;
 - Zustand for in-memory active sessions;
 - React Router;
+- a typed dependency-free i18n layer in `src/shared/config/i18n`;
 - Vitest;
 - ESLint, Prettier, and the local FSD direction checker.
 
@@ -69,7 +71,7 @@ This runs lint, FSD validation, all unit/smoke tests, strict TypeScript, and the
 - A wrong duel answer ends that player's attempt for the round and costs one life.
 - Zero lives ends the duel; otherwise the higher correct count wins, then lower total response time, then draw.
 - There is no answer deadline because the specification does not define one.
-- Russian is the current interface/content language; localization contracts were not provided.
+- The interface is localized in Russian, Uzbek, and English. Authored quiz content remains Russian until localized CMS content is approved.
 - Sounds are intentionally out of the current scope and should be added only after the sound set and product rules are approved.
 
 ## Robot assets

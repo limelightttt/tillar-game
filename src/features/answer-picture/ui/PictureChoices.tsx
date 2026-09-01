@@ -3,6 +3,7 @@ import { Check, X } from "lucide-react";
 import { type PlayerAnswer } from "@/entities/game-session";
 import { PictureArtwork, type PictureQuestion, type QuestionOptionId } from "@/entities/question";
 
+import { useI18n } from "@/shared/config";
 import { cn } from "@/shared/lib";
 
 interface PictureChoicesProps {
@@ -18,8 +19,13 @@ export function PictureChoices({
   onAnswer,
   question,
 }: PictureChoicesProps) {
+  const { t } = useI18n();
   return (
-    <div aria-label="Варианты ответа" className="grid gap-3 sm:grid-cols-2 sm:gap-4" role="group">
+    <div
+      aria-label={t("board.options")}
+      className="grid gap-3 sm:grid-cols-2 sm:gap-4"
+      role="group"
+    >
       {question.options.map((option, index) => {
         const isSelected = answer?.optionId === option.id;
         const isCorrect = answer ? question.correctOptionId === option.id : false;
@@ -27,7 +33,7 @@ export function PictureChoices({
 
         return (
           <button
-            aria-label={`Вариант ${index + 1}: ${option.ariaLabel}`}
+            aria-label={t("common.variant", { label: option.ariaLabel, number: index + 1 })}
             className={cn(
               "group relative min-h-44 overflow-hidden rounded-[1.65rem] border-[3px] bg-white p-2 text-left shadow-[0_16px_38px_-24px_rgba(34,27,71,0.4)] transition duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25 sm:min-h-52",
               !answer &&

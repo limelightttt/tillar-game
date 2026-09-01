@@ -4,6 +4,7 @@ import { Check, RotateCcw } from "lucide-react";
 
 import { buildWordFromTiles, type LetterTile, type LetterTileId } from "@/entities/word-puzzle";
 
+import { useI18n } from "@/shared/config";
 import { cn } from "@/shared/lib";
 import { Button } from "@/shared/ui";
 
@@ -28,6 +29,7 @@ export function WordComposer({
   onSubmit,
   selectedTileIds,
 }: WordComposerProps) {
+  const { t } = useI18n();
   const selectedIdSet = new Set(selectedTileIds);
   const selectedTiles = selectedTileIds
     .map((tileId) => letterTiles.find((tile) => tile.id === tileId))
@@ -60,7 +62,7 @@ export function WordComposer({
 
   return (
     <div
-      aria-label="Составление слова"
+      aria-label={t("composer.group")}
       className="rounded-[1.55rem] border border-line bg-soft/55 p-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 sm:p-5"
       role="group"
       tabIndex={0}
@@ -69,9 +71,11 @@ export function WordComposer({
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
           <p className="text-[0.65rem] font-black uppercase tracking-[0.14em] text-primary">
-            Твой ответ
+            {t("composer.answer")}
           </p>
-          <p className="mt-0.5 text-xs font-bold text-muted">{answerLength} букв</p>
+          <p className="mt-0.5 text-xs font-bold text-muted">
+            {t("composer.letters", { count: answerLength })}
+          </p>
         </div>
         <span className="rounded-full bg-white px-2.5 py-1 text-[0.65rem] font-black text-muted shadow-sm">
           {selectedTileIds.length}/{answerLength}
@@ -79,7 +83,7 @@ export function WordComposer({
       </div>
 
       <div
-        aria-label={`Составленное слово: ${selectedWord || "пока пусто"}`}
+        aria-label={t("composer.current", { word: selectedWord || t("composer.empty") })}
         aria-live="polite"
         className="mt-4 flex min-h-12 flex-wrap justify-center gap-1.5"
       >
@@ -88,7 +92,7 @@ export function WordComposer({
 
           return tile ? (
             <button
-              aria-label={`Убрать букву ${tile.letter} из позиции ${index + 1}`}
+              aria-label={t("composer.remove", { letter: tile.letter, position: index + 1 })}
               className="grid size-11 place-items-center rounded-xl border-2 border-primary bg-white text-lg font-black text-foreground shadow-[0_8px_18px_-13px_rgba(75,52,171,0.9)] transition hover:-translate-y-0.5 hover:bg-primary-soft focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 disabled:pointer-events-none"
               disabled={disabled}
               key={`${index}-${tile.id}`}
@@ -110,7 +114,7 @@ export function WordComposer({
       </div>
 
       <div
-        aria-label="Доступные буквы"
+        aria-label={t("composer.available")}
         className="mt-5 flex flex-wrap justify-center gap-2"
         role="group"
       >
@@ -119,9 +123,9 @@ export function WordComposer({
 
           return (
             <button
-              aria-label={
-                selected ? `Буква ${tile.letter} уже выбрана` : `Добавить букву ${tile.letter}`
-              }
+              aria-label={t(selected ? "composer.selected" : "composer.add", {
+                letter: tile.letter,
+              })}
               className={cn(
                 "grid size-12 place-items-center rounded-[0.9rem] border text-lg font-black shadow-sm transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20",
                 selected
@@ -141,7 +145,7 @@ export function WordComposer({
 
       <div className="mt-5 grid grid-cols-[auto_1fr] gap-2.5">
         <Button
-          aria-label="Очистить составленное слово"
+          aria-label={t("composer.clear")}
           disabled={disabled || selectedTileIds.length === 0}
           size="icon"
           variant="secondary"
@@ -150,14 +154,14 @@ export function WordComposer({
           <RotateCcw aria-hidden="true" className="size-4" />
         </Button>
         <Button
-          aria-label="Проверить слово"
+          aria-label={t("composer.checkLabel")}
           className="px-3"
           disabled={disabled || !complete}
           fullWidth
           onClick={onSubmit}
         >
           <Check aria-hidden="true" className="size-4" />
-          Проверить
+          {t("composer.check")}
         </Button>
       </div>
     </div>

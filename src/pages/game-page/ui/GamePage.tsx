@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { Swords, UserRound } from "lucide-react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { AppHeader } from "@/widgets/app-header";
@@ -10,13 +9,14 @@ import { FeedbackModal } from "@/features/continue-game";
 import { ExitGameModal } from "@/features/exit-game";
 import { useGameSessionStore } from "@/entities/game-session";
 
-import { routes } from "@/shared/config";
+import { routes, useI18n } from "@/shared/config";
 
 const CLOCK_REFRESH_MS = 100;
 const ROUND_RESULT_HOLD_MS = 1_450;
 
 export function GamePage() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [exitDialogOpen, setExitDialogOpen] = useState(false);
   const mode = useGameSessionStore((state) => state.mode);
   const status = useGameSessionStore((state) => state.status);
@@ -72,24 +72,14 @@ export function GamePage() {
     navigate(routes.home, { replace: true });
   };
 
-  const modeLabel = mode === "solo" ? "Одиночная игра" : "Дуэль с ботом";
-  const ModeIcon = mode === "solo" ? UserRound : Swords;
-
   return (
     <div className="app-noise min-h-dvh">
       <AppHeader
-        backLabel="Завершить игру"
-        eyebrow="2 картинки"
-        rightSlot={
-          <span
-            aria-label={modeLabel}
-            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-white px-3 text-xs font-black text-muted shadow-sm"
-          >
-            <ModeIcon aria-hidden="true" className="size-4 text-primary" />
-            <span className="hidden sm:inline">{modeLabel}</span>
-          </span>
-        }
-        title={mode === "solo" ? `Вопрос ${currentRound}` : `Раунд ${currentRound}`}
+        backLabel={t("header.finish")}
+        eyebrow={t("product.two.header")}
+        title={t(mode === "solo" ? "common.question" : "common.round", {
+          round: currentRound,
+        })}
         onBack={() => setExitDialogOpen(true)}
       />
 

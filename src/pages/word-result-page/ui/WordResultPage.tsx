@@ -4,10 +4,11 @@ import { GameResultView } from "@/widgets/game-result";
 import { CategoryIcon, questionCategories } from "@/entities/question";
 import { useWordGameSessionStore } from "@/entities/word-game-session";
 
-import { routes } from "@/shared/config";
+import { routes, useI18n } from "@/shared/config";
 
 export function WordResultPage() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const status = useWordGameSessionStore((state) => state.status);
   const mode = useWordGameSessionStore((state) => state.mode);
   const categoryId = useWordGameSessionStore((state) => state.selectedCategoryId);
@@ -29,22 +30,22 @@ export function WordResultPage() {
   const category = questionCategories.find((item) => item.id === categoryId);
   const title = isSolo
     ? playerStats.answered === 0
-      ? "До следующей загадки!"
+      ? t("result.word.emptyTitle")
       : accuracy >= 0.7
-        ? "Слова тебе покоряются!"
-        : "Отличная тренировка!"
+        ? t("result.word.goodTitle")
+        : t("result.word.startTitle")
     : playerWon
-      ? "Словесная победа!"
+      ? t("result.word.winTitle")
       : draw
-        ? "Редкая ничья"
-        : "Возьмём реванш?";
+        ? t("result.word.drawTitle")
+        : t("result.word.loseTitle");
   const subtitle = isSolo
     ? playerStats.answered === 0
-      ? "Начни новую сессию, когда будешь готов искать связи между подсказками."
-      : "Каждая разгадка тренирует ассоциации, внимание и словарный запас."
+      ? t("result.word.emptyText")
+      : t("result.word.soloText")
     : finishReason === "out-of-lives"
-      ? "Матч завершился досрочно: один из игроков потерял все три жизни."
-      : "Восемь раундов завершены — счёт определён по верным словам и времени.";
+      ? t("result.word.livesText")
+      : t("result.word.roundsText");
   const tone = isSolo
     ? playerStats.answered === 0
       ? "neutral"
@@ -70,12 +71,12 @@ export function WordResultPage() {
     <GameResultView
       botStats={botStats}
       categoryIcon={<CategoryIcon categoryId={category?.id ?? "all"} />}
-      categoryLabel={category?.label ?? "Все темы"}
-      gameLabel="4 картинки / слово"
+      categoryLabel={t(`category.${category?.id ?? "all"}`)}
+      gameLabel={t("product.word.header")}
       isSolo={isSolo}
       playerStats={playerStats}
       robotVariant={tone === "success" ? "celebrate" : tone === "danger" ? "encourage" : "idle"}
-      statusLabel={isSolo ? "Сессия завершена" : "Результат дуэли"}
+      statusLabel={t(isSolo ? "result.sessionFinished" : "result.duelFinished")}
       subtitle={subtitle}
       title={title}
       tone={tone}

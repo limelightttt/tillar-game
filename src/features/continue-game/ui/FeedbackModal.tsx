@@ -3,6 +3,7 @@ import { ArrowRight, Check, Lightbulb, X } from "lucide-react";
 import { type EducationalFeedback, type PlayerAnswer } from "@/entities/game-session";
 import { type PictureQuestion } from "@/entities/question";
 
+import { useI18n } from "@/shared/config";
 import { cn } from "@/shared/lib";
 import { Button, Modal } from "@/shared/ui";
 import { RobotSequence } from "@/shared/ui/robot-sequence";
@@ -22,6 +23,7 @@ export function FeedbackModal({
   open,
   question,
 }: FeedbackModalProps) {
+  const { t } = useI18n();
   if (!question || !answer || !feedback) return null;
 
   const correct = feedback.kind === "correct";
@@ -31,7 +33,7 @@ export function FeedbackModal({
   const correctOption = question.options[correctOptionIndex];
 
   return (
-    <Modal label={correct ? "Правильный ответ" : "Неправильный ответ"} open={open}>
+    <Modal label={t(correct ? "feedback.correctLabel" : "feedback.wrongLabel")} open={open}>
       <div className="absolute -right-16 -top-20 size-52 rounded-full bg-primary-soft blur-2xl" />
       <div className="relative grid gap-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center sm:gap-5">
         <div
@@ -63,10 +65,10 @@ export function FeedbackModal({
             )}
           </span>
           <p className="text-xs font-black uppercase tracking-[0.16em] text-muted">
-            {correct ? "Да, правильно" : "Почти получилось"}
+            {t(correct ? "feedback.yes" : "feedback.almost")}
           </p>
           <h2 className="mt-1 text-2xl font-black tracking-[-0.05em] text-foreground sm:text-3xl">
-            {correct ? "Точно в цель!" : "Запомним ответ"}
+            {t(correct ? "feedback.hit" : "feedback.rememberAnswer")}
           </h2>
         </div>
       </div>
@@ -75,17 +77,20 @@ export function FeedbackModal({
         <>
           <div className="relative mt-5 rounded-[1.25rem] border border-danger/15 bg-danger-soft p-4">
             <p className="text-xs font-black uppercase tracking-[0.12em] text-danger">
-              Почему не этот вариант
+              {t("feedback.whyWrong")}
             </p>
             <p className="mt-1.5 text-sm leading-relaxed text-foreground/80">{feedback.text}</p>
           </div>
           {correctOption ? (
             <div className="relative mt-3 rounded-[1.25rem] border border-success/20 bg-success-soft p-4">
               <p className="text-xs font-black uppercase tracking-[0.12em] text-success">
-                Правильный ответ
+                {t("feedback.correctAnswer")}
               </p>
               <p className="mt-1.5 text-sm font-black text-foreground">
-                Вариант {correctOptionIndex === 0 ? "A" : "B"}: {correctOption.ariaLabel}
+                {t("feedback.correctVariant", {
+                  label: correctOption.ariaLabel,
+                  variant: correctOptionIndex === 0 ? "A" : "B",
+                })}
               </p>
             </div>
           ) : null}
@@ -95,7 +100,7 @@ export function FeedbackModal({
       <div className="relative mt-3 rounded-[1.25rem] border border-primary/15 bg-primary-soft p-4">
         <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.12em] text-primary">
           <Lightbulb aria-hidden="true" className="size-4" />
-          Факт в копилку
+          {t("feedback.fact")}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-foreground/82">
           {correct ? feedback.text : question.correctFact}
@@ -103,7 +108,7 @@ export function FeedbackModal({
       </div>
 
       <Button className="relative mt-5" fullWidth size="large" onClick={onContinue}>
-        Продолжить
+        {t("common.continue")}
         <ArrowRight aria-hidden="true" className="size-4" />
       </Button>
     </Modal>
