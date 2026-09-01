@@ -9,7 +9,14 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default defineConfig([
-  globalIgnores(["dist", "node_modules", "coverage", ".asset-inspection"]),
+  globalIgnores([
+    "dist",
+    "node_modules",
+    "coverage",
+    "playwright-report",
+    "test-results",
+    ".asset-inspection",
+  ]),
   js.configs.recommended,
   ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
