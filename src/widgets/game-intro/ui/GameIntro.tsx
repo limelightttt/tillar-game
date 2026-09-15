@@ -12,6 +12,8 @@ import { type GameProductId } from "@/entities/game-product";
 import { type TranslationKey, useI18n } from "@/shared/config";
 import { RobotSequence } from "@/shared/ui/robot-sequence";
 
+import "./game-intro.css";
+
 const introContent = {
   "two-pictures": {
     code: "01",
@@ -55,7 +57,7 @@ export function GameIntro({ gameId }: GameIntroProps) {
   const content = introContent[gameId];
 
   return (
-    <section className="tillar-header relative isolate min-h-[38rem] overflow-hidden rounded-[2.25rem] p-6 text-white shadow-[0_28px_80px_-34px_rgba(7,31,61,0.72)] sm:min-h-[42rem] sm:p-9 lg:min-h-0 lg:p-7">
+    <section className="game-intro-card tillar-header relative isolate min-h-[38rem] overflow-hidden rounded-[2.25rem] p-6 text-white shadow-[0_28px_80px_-34px_rgba(7,31,61,0.72)] sm:min-h-[42rem] sm:p-9 lg:min-h-0 lg:p-7">
       <div className="absolute -right-20 -top-20 size-72 rounded-full bg-primary/30 blur-3xl" />
       <div className="absolute -bottom-32 -left-24 size-80 rounded-full bg-cyan/20 blur-3xl" />
       <div
@@ -106,14 +108,9 @@ export function GameIntro({ gameId }: GameIntroProps) {
           </ul>
         </div>
 
-        <div className="relative mt-8 min-h-56 flex-1 sm:min-h-64 lg:mt-5 lg:min-h-48">
-          <div className="absolute bottom-1 left-0 h-8 w-40 rounded-[50%] bg-black/40 blur-xl sm:left-2 sm:w-48 lg:left-0 lg:w-40" />
-          <div className="pointer-events-none absolute -left-2 bottom-0 w-48 sm:w-60 lg:w-52">
-            <RobotSequence
-              decorative
-              className="drop-shadow-[0_24px_32px_rgba(0,0,0,0.36)]"
-              variant="idle"
-            />
+        <div className="game-intro-mascot relative mt-8 min-h-56 sm:min-h-64 lg:mt-5 lg:min-h-48">
+          <div className="game-intro-robot pointer-events-none absolute">
+            <RobotSequence decorative variant="idle" />
           </div>
         </div>
       </div>

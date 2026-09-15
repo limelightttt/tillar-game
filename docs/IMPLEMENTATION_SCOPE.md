@@ -43,6 +43,8 @@ Production delivery also references TILLAR accounts, content administration, per
 
 ### Robot animation audit
 
+- user-requested home-only hover experiment: the neutral robot wrapper moves vertically by 8 px over a 2.4 s loop, starting after 600 ms; the legs below the knees stay behind the lower card edge, softened by a gradient, with no ground shadow. The larger mascot has reserved space below the text on mobile and desktop. Reduced motion receives a static presentation without hovering. Shared action playback, source PNGs, and gameplay are unchanged;
+
 - action names describe product intent: `celebrate` and `encourage`;
 - both supplied action sequences start preparing after the first application paint, reducing the first-feedback loading delay without guaranteeing that preloading finishes before an early answer;
 - active unique frames finish decoding before playback begins;

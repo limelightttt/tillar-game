@@ -137,7 +137,7 @@ Runtime assets are copied from the supplied archives and kept as transparent 2D 
 
 - `celebrate`: eight jump frames, 960 ms total;
 - `encourage`: the authored 70-slot squat/smile timeline, 3.5 s total;
-- `idle`: one static neutral frame; no loop or invented floating motion.
+- `idle`: one static neutral frame. The home hero wraps it in a gentle CSS hover cycle (8 px / 2.4 s, with legs below the knees cropped behind the card edge), enabled only with normal motion; shared idle rendering stays static, and result reactions remain unchanged.
 
 The renderer prepares the two action sequences in the background after the first application paint, keeps a stable poster until every active frame is decoded, and then draws to one fixed transparent canvas. A shared `512×512` presentation stage normalizes the taller jump crops without distorting them. Poster and canvas visibility are mutually exclusive, actions are one-shot, and reduced-motion users receive only the configured static frame without downloading the action sequences during application startup.
 

@@ -244,9 +244,11 @@ After contracts exist, map transport DTOs to the existing domain types at an exp
 
 The robot assets are supplied transparent 2D PNG frames. The current semantic variants are:
 
-- `idle` — one static neutral frame; no invented levitation or loop;
+- `idle` — one static neutral frame in the shared renderer; the home hero has a separately authorized CSS hover effect described below;
 - `celebrate` — eight jump frames, `120 ms` each, `960 ms` total;
 - `encourage` — the authored 70-slot squat/neutral/smile timeline, `50 ms` per slot, `3.5 s` total.
+
+The user explicitly requested a local home-page levitation experiment. `widgets/game-intro/ui/game-intro.css` moves the idle wrapper up by 8 px and back over 2.4 s, starting after 600 ms, with legs below the knees cropped behind the card edge. It runs only under `prefers-reduced-motion: no-preference`. Keep this effect scoped to the home hero; do not alter the shared idle frame, action timelines, result reactions, or gameplay layout to implement it. The larger home mascot has reserved space below the text on mobile and desktop.
 
 Legacy aliases `jump` and `squat` remain only for compatibility. New callers should use semantic names:
 
