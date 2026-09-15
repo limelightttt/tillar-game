@@ -48,7 +48,7 @@ export function HomePage() {
       <AppHeader />
       <main className="safe-bottom mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
         <GameProductSelector value={gameId} onChange={setGameId} />
-        <div className="animate-rise grid items-start gap-5 lg:grid-cols-[1.08fr_0.92fr] lg:gap-7">
+        <div className="animate-rise grid items-start gap-5 lg:grid-cols-2 lg:items-stretch lg:gap-6">
           <GameIntro gameId={gameId} />
           <GameSetup
             categoryId={categoryId}

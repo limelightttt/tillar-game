@@ -19,8 +19,8 @@ export function GameProductSelector({ onChange, value }: GameProductSelectorProp
   const { t } = useI18n();
 
   return (
-    <section aria-labelledby="game-product-title" className="mb-5">
-      <div className="mb-3">
+    <section aria-labelledby="game-product-title" className="mb-5 lg:flex lg:items-center lg:gap-8">
+      <div className="mb-3 lg:mb-0 lg:shrink-0">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.16em] text-primary">
             {t("selector.eyebrow")}
@@ -34,7 +34,11 @@ export function GameProductSelector({ onChange, value }: GameProductSelectorProp
         </div>
       </div>
 
-      <div aria-label={t("selector.group")} className="grid gap-2.5 sm:grid-cols-2" role="group">
+      <div
+        aria-label={t("selector.group")}
+        className="grid gap-2.5 sm:grid-cols-2 lg:flex-1 lg:gap-4"
+        role="group"
+      >
         {gameProducts.map((product) => {
           const selected = value === product.id;
           const Icon = productIcons[product.id];
@@ -43,7 +47,7 @@ export function GameProductSelector({ onChange, value }: GameProductSelectorProp
             <button
               aria-pressed={selected}
               className={cn(
-                "group flex min-h-[5.5rem] items-center gap-3 rounded-[1.45rem] border p-3.5 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 sm:p-4",
+                "group flex min-h-[5.5rem] items-center gap-3 rounded-[1.45rem] border p-3.5 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 sm:p-4 lg:min-h-20 lg:py-3",
                 selected
                   ? "border-primary/65 bg-ink text-white shadow-[0_16px_35px_-24px_rgba(7,31,61,0.9)]"
                   : "border-white/80 bg-white/88 text-foreground shadow-sm hover:border-primary/30 hover:bg-white",

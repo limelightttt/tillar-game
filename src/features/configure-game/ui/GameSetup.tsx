@@ -65,10 +65,10 @@ export function GameSetup({
   return (
     <section
       aria-labelledby="game-setup-title"
-      className="tillar-surface rounded-[2rem] border p-5 backdrop-blur sm:p-7"
+      className="tillar-surface rounded-[2rem] border p-5 backdrop-blur sm:p-7 lg:flex lg:flex-col lg:p-6"
       id="game-setup"
     >
-      <div className="mb-6 flex items-start justify-between gap-4">
+      <div className="mb-6 flex items-start justify-between gap-4 lg:mb-5">
         <div>
           <p className="mb-1 text-xs font-black uppercase tracking-[0.18em] text-primary">
             {t("setup.eyebrow")}
@@ -94,7 +94,7 @@ export function GameSetup({
             <button
               aria-pressed={selected}
               className={cn(
-                "group relative flex min-h-[5.5rem] items-center gap-4 rounded-[1.4rem] border p-4 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20",
+                "group relative flex min-h-[5.5rem] items-center gap-4 rounded-[1.4rem] border p-4 text-left transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 lg:min-h-20 lg:gap-3 lg:p-3",
                 selected
                   ? "border-primary bg-primary-soft shadow-[0_10px_26px_-18px_rgba(8,124,240,0.65)]"
                   : "border-line bg-white hover:border-primary/35 hover:bg-soft/60",
@@ -141,7 +141,7 @@ export function GameSetup({
         })}
       </div>
 
-      <div className="mt-7">
+      <div className="mt-7 lg:mt-6 lg:flex-1">
         <div className="mb-3 flex items-end justify-between gap-3">
           <p className="text-sm font-black text-foreground">{t("setup.category")}</p>
           <p className="text-xs font-bold text-muted">
@@ -150,7 +150,7 @@ export function GameSetup({
         </div>
         <div
           aria-label={t("setup.categoryGroup")}
-          className="flex max-h-40 flex-wrap gap-2 overflow-y-auto pr-1"
+          className="flex max-h-40 flex-wrap gap-2 overflow-y-auto pr-1 lg:max-h-none lg:overflow-visible lg:pr-0"
           role="group"
         >
           {questionCategories.map((category) => {
@@ -161,7 +161,7 @@ export function GameSetup({
               <button
                 aria-pressed={selected}
                 className={cn(
-                  "inline-flex min-h-11 items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-bold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20",
+                  "inline-flex min-h-11 items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-bold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 lg:gap-1.5 lg:px-3 lg:text-xs",
                   selected
                     ? "border-primary bg-primary text-white shadow-sm"
                     : "border-line bg-white text-foreground hover:border-primary/35 hover:bg-soft",
@@ -181,7 +181,7 @@ export function GameSetup({
         </div>
       </div>
 
-      <Button className="mt-5" fullWidth size="large" onClick={onStart}>
+      <Button className="mt-5 lg:mx-auto lg:max-w-xs" fullWidth size="large" onClick={onStart}>
         {t("setup.start")}
         <span aria-hidden="true">→</span>
       </Button>

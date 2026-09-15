@@ -23,7 +23,7 @@ export function PictureChoices({
   return (
     <div
       aria-label={t("board.options")}
-      className="grid gap-3 sm:grid-cols-2 sm:gap-4"
+      className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:mx-auto lg:max-w-3xl lg:gap-5"
       role="group"
     >
       {question.options.map((option, index) => {

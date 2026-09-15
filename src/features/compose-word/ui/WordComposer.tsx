@@ -63,7 +63,7 @@ export function WordComposer({
   return (
     <div
       aria-label={t("composer.group")}
-      className="rounded-[1.55rem] border border-line bg-soft/55 p-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 sm:p-5"
+      className="rounded-[1.55rem] border border-line bg-soft/55 p-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/20 sm:p-5 lg:flex lg:flex-col lg:justify-center lg:p-6"
       role="group"
       tabIndex={0}
       onKeyDown={handleKeyDown}
@@ -143,7 +143,7 @@ export function WordComposer({
         })}
       </div>
 
-      <div className="mt-5 grid grid-cols-[auto_1fr] gap-2.5">
+      <div className="mt-5 grid grid-cols-[auto_1fr] gap-2.5 lg:mx-auto lg:mt-7 lg:w-full lg:max-w-xs">
         <Button
           aria-label={t("composer.clear")}
           disabled={disabled || selectedTileIds.length === 0}

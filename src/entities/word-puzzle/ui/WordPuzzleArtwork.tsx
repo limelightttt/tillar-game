@@ -115,7 +115,7 @@ export function WordPuzzleArtwork({ className = "", image, index }: WordPuzzleAr
             src={image.src}
           />
         ) : (
-          <span className="grid size-[64%] min-h-16 min-w-16 place-items-center rounded-[30%] border border-white/80 bg-white/72 text-[clamp(2.4rem,11vw,5.25rem)] shadow-[0_20px_40px_-25px_rgba(28,25,48,0.5)] backdrop-blur-sm transition-transform duration-300 group-hover:scale-[1.04]">
+          <span className="grid size-[64%] min-h-16 min-w-16 place-items-center rounded-[30%] border border-white/80 bg-white/72 text-[clamp(2.4rem,11vw,5.25rem)] shadow-[0_20px_40px_-25px_rgba(28,25,48,0.5)] backdrop-blur-sm transition-transform duration-300 group-hover:scale-[1.04] lg:text-6xl">
             {image.symbol ?? "✦"}
           </span>
         )}
