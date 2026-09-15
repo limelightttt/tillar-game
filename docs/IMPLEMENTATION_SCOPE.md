@@ -56,6 +56,10 @@ The TILLAR specification does not prescribe mascot animations. Their semantic pl
 
 ### Responsive UI audit
 
+- desktop game boards keep picture choices bounded and use a compact 2×2 word-clue grid beside an equally tall answer panel; primary start/word-submit actions have bounded desktop widths, with the existing layouts below 1024 px preserved;
+
+- desktop home layout from 1024 px uses one row for product selection, equal-height hero/setup columns, bounded headline/mascot sizes, and fully visible category choices; this is a user-requested presentation change, with mobile styles and game rules preserved;
+
 - the home hero reserves a separate in-flow mascot region, so switching products cannot place copy beneath the robot;
 - feedback and result mascots use bounded square slots instead of overflowing differently shaped source canvases;
 - duel score cards stack at the 320 px baseline and return to two columns from the small breakpoint;

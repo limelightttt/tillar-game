@@ -55,7 +55,7 @@ export function GameIntro({ gameId }: GameIntroProps) {
   const content = introContent[gameId];
 
   return (
-    <section className="tillar-header relative isolate min-h-[38rem] overflow-hidden rounded-[2.25rem] p-6 text-white shadow-[0_28px_80px_-34px_rgba(7,31,61,0.72)] sm:min-h-[42rem] sm:p-9">
+    <section className="tillar-header relative isolate min-h-[38rem] overflow-hidden rounded-[2.25rem] p-6 text-white shadow-[0_28px_80px_-34px_rgba(7,31,61,0.72)] sm:min-h-[42rem] sm:p-9 lg:min-h-0 lg:p-7">
       <div className="absolute -right-20 -top-20 size-72 rounded-full bg-primary/30 blur-3xl" />
       <div className="absolute -bottom-32 -left-24 size-80 rounded-full bg-cyan/20 blur-3xl" />
       <div
@@ -67,27 +67,30 @@ export function GameIntro({ gameId }: GameIntroProps) {
       />
 
       <div
-        className="animate-content-swap relative z-10 flex min-h-[34rem] flex-col sm:min-h-[37.5rem]"
+        className="animate-content-swap relative z-10 flex min-h-[34rem] flex-col sm:min-h-[37.5rem] lg:h-full lg:min-h-0"
         key={gameId}
       >
         <div>
-          <div className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-white/75 backdrop-blur">
+          <div className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-white/75 backdrop-blur lg:mb-5">
             <span className="size-2 shrink-0 rounded-full bg-cyan shadow-[0_0_16px_rgba(18,203,228,0.9)]" />
             <span className="truncate">{t(content.eyebrowKey)}</span>
           </div>
 
-          <h1 className="text-balance max-w-xl text-[clamp(2.5rem,6vw,4.5rem)] font-black leading-[0.94] tracking-[-0.06em]">
+          <h1 className="text-balance max-w-xl text-[clamp(2.5rem,6vw,4.5rem)] font-black leading-[0.94] tracking-[-0.06em] lg:text-5xl lg:leading-none xl:text-[3.25rem]">
             {t(content.lineKeys[0])}
             <br />
             <span className="text-cyan">{t(content.lineKeys[1])}</span>
             <br />
             {t(content.lineKeys[2])}
           </h1>
-          <p className="mt-5 max-w-md text-base leading-relaxed text-white/62 sm:text-lg">
+          <p className="mt-5 max-w-md text-base leading-relaxed text-white/62 sm:text-lg lg:max-w-sm lg:text-base">
             {t(content.descriptionKey)}
           </p>
 
-          <ul className="mt-7 flex flex-wrap gap-2.5" aria-label={t("intro.features")}>
+          <ul
+            className="mt-7 flex flex-wrap gap-2.5 lg:mt-5 lg:gap-2"
+            aria-label={t("intro.features")}
+          >
             {content.features.map((feature) => {
               const Icon = feature.icon;
               return (
@@ -103,9 +106,9 @@ export function GameIntro({ gameId }: GameIntroProps) {
           </ul>
         </div>
 
-        <div className="relative mt-8 min-h-56 flex-1 sm:min-h-64">
-          <div className="absolute bottom-1 left-0 h-8 w-40 rounded-[50%] bg-black/40 blur-xl sm:left-2 sm:w-48" />
-          <div className="pointer-events-none absolute -left-2 bottom-0 w-48 sm:w-60">
+        <div className="relative mt-8 min-h-56 flex-1 sm:min-h-64 lg:mt-5 lg:min-h-48">
+          <div className="absolute bottom-1 left-0 h-8 w-40 rounded-[50%] bg-black/40 blur-xl sm:left-2 sm:w-48 lg:left-0 lg:w-40" />
+          <div className="pointer-events-none absolute -left-2 bottom-0 w-48 sm:w-60 lg:w-52">
             <RobotSequence
               decorative
               className="drop-shadow-[0_24px_32px_rgba(0,0,0,0.36)]"

@@ -129,7 +129,7 @@ export function WordPuzzleBoard({
       </div>
 
       <div className="mb-5 sm:mb-6">
-        <h1 className="text-balance max-w-4xl text-2xl font-black leading-tight tracking-[-0.045em] text-foreground sm:text-3xl lg:text-[2.15rem]">
+        <h1 className="text-balance max-w-4xl text-2xl font-black leading-tight tracking-[-0.045em] text-foreground sm:text-3xl lg:text-3xl">
           {puzzle.prompt}
         </h1>
       </div>
@@ -138,7 +138,7 @@ export function WordPuzzleBoard({
         <DuelRoundStatus botAnswer={botAnswer} playerAnswer={playerAnswer} />
       ) : null}
 
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)] lg:items-start lg:gap-6">
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] lg:items-stretch lg:gap-6">
         <div
           aria-label={t("board.clues")}
           className="grid grid-cols-2 gap-2.5 sm:gap-3"
