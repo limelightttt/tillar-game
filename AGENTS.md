@@ -41,7 +41,7 @@ Required local tooling comes from `package.json`:
 Use pnpm only. Do not use npm, Yarn, or Bun to install, run, or update the project.
 
 ```bash
-pnpm install        # install the locked dependency graph
+pnpm install --frozen-lockfile # install the locked dependency graph
 pnpm dev            # Vite dev server at http://localhost:5173
 pnpm build          # strict TypeScript project build, then Vite production build
 pnpm preview        # preview the production build
@@ -50,6 +50,8 @@ pnpm format:check   # check formatting without changing files
 pnpm format         # intentionally rewrite files with Prettier
 pnpm test           # one Vitest run
 pnpm test:watch     # Vitest watch mode
+pnpm test:e2e       # Playwright Chromium UI tests (separate from pnpm check)
+pnpm test:e2e:update # intentionally update platform-specific visual baselines
 pnpm check:fsd      # validate cross-layer FSD dependency direction
 pnpm check          # lint + FSD check + tests + production build
 ```
@@ -65,7 +67,8 @@ Run `pnpm check` before handing off any code change. Run narrower commands durin
 - React Router for client routes;
 - Tailwind CSS 4 for styling;
 - Zustand only for the two active in-memory game sessions;
-- Vitest for colocated domain and smoke tests;
+- Vitest for colocated domain and server-rendered smoke tests;
+- Playwright for Chromium UI flows and home-page visual snapshots;
 - ESLint, Prettier, and `scripts/check-fsd.mjs` for static verification.
 
 The UI is handwritten. shadcn/ui and Radix are not installed. Reuse or extend `src/shared/ui` before proposing a UI kit. The supplied robot is a 2D PNG sequence, not a 3D model; do not add Three.js, Unity, or another rendering engine for it.
@@ -78,14 +81,14 @@ The allowed Feature-Sliced Design direction is:
 app → pages → widgets → features → entities → shared
 ```
 
-A layer may import only layers below it. Same-layer imports between unrelated slices should be avoided; the documented category-type reuse from `word-puzzle` to `question` is the current narrow exception. Cross-slice imports must use the target slice's public `index.ts`. Use relative imports only inside the same slice. Run `pnpm check:fsd` after structural changes.
+Cross-layer imports must point downward. Same-layer imports between unrelated slices should be avoided. Existing entity dependencies are `game-session → question`, `word-game-session → word-puzzle`, and shared category-type reuse from `word-puzzle` and `word-game-session` to `question`; preserve these explicit boundaries. Cross-slice imports must use the target slice's public `index.ts`. Use relative imports only inside the same slice. Run `pnpm check:fsd` after structural changes. The checker detects upward `@/` layer imports; it does not enforce same-layer slice independence or public entry points, which still require review.
 
 ```text
 src/main.tsx
   Browser entry; mounts the app and global stylesheet.
 
 src/app/
-  providers/App.tsx              BrowserRouter composition.
+  providers/App.tsx              I18nProvider, BrowserRouter, and robot-action preload.
   router/AppRouter.tsx           Route-to-page mapping and fallback redirect.
   styles/index.css               Tailwind import, design tokens, global motion/a11y rules.
 
@@ -132,6 +135,9 @@ public/assets/robot/
 
 docs/IMPLEMENTATION_SCOPE.md     Requirement/implementation/backend-gap ledger.
 scripts/check-fsd.mjs            Local FSD direction checker.
+e2e/ui.spec.ts                   Browser flows and home-page snapshots.
+playwright.config.ts            Chromium projects at 320, 390, and 1440 px.
+vercel.json                     SPA fallback rewrite to index.html.
 ```
 
 Do not create catch-all folders such as `shared/hooks`, `shared/helpers`, or `shared/types` merely for convenience. Keep a hook, type, or pure helper with the slice that owns its meaning. Move it to `shared` only when it is genuinely domain-independent and reused. The current reduced-motion hook intentionally lives beside `RobotSequence` because it belongs to that renderer.
@@ -148,7 +154,14 @@ Do not create catch-all folders such as `shared/hooks`, `shared/helpers`, or `sh
 | `/games/four-pictures-word`        | `WordGamePage`   | Play `Four pictures / word`.                                       |
 | `/games/four-pictures-word/result` | `WordResultPage` | Show Game 2 result/restart actions.                                |
 
-Unknown paths redirect to `/`. `HomePage` resets both in-memory sessions on mount so browser Back does not expose a stale resumable round.
+Unknown paths redirect to `/`. `HomePage` resets both in-memory sessions on mount so browser Back to home does not expose a stale resumable round. Home defaults to Game 1, `all`, and `solo`.
+
+- Game routes without an active session and result routes without a finished session redirect home.
+- Confirming exit in solo calls `finishSolo` and opens the corresponding result; confirming exit in `duel-demo` resets the session and returns home without a result.
+- The exit dialog does not pause the clock or the bot. Browser Back is not intercepted by this dialog.
+- Non-final duel rounds show `round-result` after both answers, then pages call `advance` after 1,450 ms. Elimination and the final round go directly to the result.
+- Play again starts a fresh queue with the same product, category, and mode. Queue history does not survive a new session or a page reload.
+- Sessions exist only in memory. The interface language defaults to Russian and is saved separately in localStorage under `tillar-language`; it also updates the document's `lang`. Switching interface language does not translate the Russian fixtures or letter input.
 
 ## Sources of truth
 
@@ -188,7 +201,7 @@ Preserve these implemented rules unless a new explicit product decision supersed
 - Duel demo never shows the educational feedback popup.
 - Both duel participants start with three lives.
 - A wrong duel answer removes one life and closes that participant's attempt for the round.
-- A duel ends on sole elimination or after eight rounds. Eight rounds are an implementation assumption because the specification gives no count.
+- A duel ends when either participant reaches zero lives, without waiting for the other answer, or after both answers in round eight. A sole survivor wins; simultaneous elimination uses correct count, then total response time, then draw. Eight rounds are an implementation assumption because the specification gives no count.
 - Surviving duels compare correct answers, then lower total response time, then produce a draw on exact equality.
 - There is no answer deadline because the specification defines none; elapsed time measures response time and schedules the demo bot.
 - Category `all` uses every item; the other ten IDs share one taxonomy across both games.
@@ -281,7 +294,11 @@ If assets, frame order, dimensions, or timings change, verify the actual PNG met
 
 ## Testing and verification
 
-Pure business logic tests are colocated as `*.test.ts` under the owning entity. The current Vitest environment is Node and includes `src/**/*.test.ts`; there is no production E2E suite yet. Do not claim browser automation coverage that does not exist.
+Pure business logic tests are colocated as `*.test.ts` under the owning entity. Vitest uses Node and includes `src/**/*.test.ts`; application smoke tests render static markup and do not exercise browser effects.
+
+Playwright UI tests exist in `e2e/ui.spec.ts`, independently of `pnpm check`. Six scenarios run in Chromium at 320×740, 390×844, and 1440×1000: responsive home and RU/EN/UZ switching, Game 1 solo feedback, Game 2 startup, both solo result pages, and language consistency into an active game/exit dialog. Every scenario emulates reduced motion. Committed home snapshots are Windows-specific (`chromium-win32.png`); other operating systems need reviewed baselines of their own. Do not treat missing baselines as a product regression or silently regenerate snapshots to make tests pass.
+
+Use `pnpm exec playwright install chromium` to install the browser when needed, then `pnpm test:e2e`. The configured web server invokes `corepack pnpm exec vite`, so Corepack must also be available. Reports and traces go to ignored `playwright-report/` and `test-results/`. There is no committed GitHub Actions workflow. These tests do not cover full duels, word submission, normal-motion animation, keyboard flows, restart, browser Back, or unknown routes; retain the manual checklist below.
 
 For logic changes:
 
