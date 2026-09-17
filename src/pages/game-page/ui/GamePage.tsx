@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
+import { LogOut } from "lucide-react";
 import { Navigate, useNavigate } from "react-router-dom";
 
-import { AppHeader } from "@/widgets/app-header";
 import { GameScoreboard } from "@/widgets/game-scoreboard";
 import { QuestionBoard } from "@/widgets/question-board";
 import { FeedbackModal } from "@/features/continue-game";
@@ -10,6 +10,7 @@ import { ExitGameModal } from "@/features/exit-game";
 import { useGameSessionStore } from "@/entities/game-session";
 
 import { routes, useI18n } from "@/shared/config";
+import { Button } from "@/shared/ui";
 
 const CLOCK_REFRESH_MS = 100;
 const ROUND_RESULT_HOLD_MS = 1_450;
@@ -74,16 +75,17 @@ export function GamePage() {
 
   return (
     <div className="app-noise min-h-dvh">
-      <AppHeader
-        backLabel={t("header.finish")}
-        eyebrow={t("product.two.header")}
-        title={t(mode === "solo" ? "common.question" : "common.round", {
-          round: currentRound,
-        })}
-        onBack={() => setExitDialogOpen(true)}
-      />
-
-      <main className="safe-bottom mx-auto w-full max-w-5xl px-4 pb-8 sm:px-6 lg:px-8">
+      <main className="safe-bottom mx-auto w-full max-w-5xl px-4 pb-8 pt-5 sm:px-6 lg:px-8">
+        <div className="mb-3 flex justify-end">
+          <Button
+            className="rounded-full px-4 text-muted hover:border-primary/25 hover:bg-primary-soft hover:text-primary"
+            variant="secondary"
+            onClick={() => setExitDialogOpen(true)}
+          >
+            <LogOut aria-hidden="true" className="size-4" />
+            {t("header.finish")}
+          </Button>
+        </div>
         <div className="mb-3 sm:mb-4">
           <GameScoreboard
             botLives={botLives}

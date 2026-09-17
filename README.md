@@ -150,3 +150,10 @@ The renderer prepares the two action sequences in the background after the first
 - [Game 2 session](src/entities/word-game-session/README.md): word-game state and rules.
 
 The GitHub repository overview renders this README. Keep documentation changes in the same repository so the overview and local instructions stay in sync.
+
+## Home embedding layout
+
+The home page omits the branded top header and the TILLAR GAMES eyebrow
+for iframe integration. The language selector sits in the upper-right corner of the robot
+intro card, independently of the game selection heading. Game and result screens also omit the branded header and language selector.
+The finish-game button remains within the game content with its existing confirmation flow.

@@ -4,7 +4,7 @@ import { ArrowRight, Bot, Check, Clock3, Home, RotateCcw, Trophy, X } from "luci
 
 import { useI18n } from "@/shared/config";
 import { cn, formatPercent, formatSeconds } from "@/shared/lib";
-import { Button, LanguageSelector, TillarLogo } from "@/shared/ui";
+import { Button } from "@/shared/ui";
 import { RobotSequence, type RobotSequenceVariant } from "@/shared/ui/robot-sequence";
 
 export interface GameResultStats {
@@ -121,27 +121,17 @@ export function GameResultView({
 
   return (
     <div className="app-noise min-h-dvh">
-      <header className="tillar-header mx-auto mb-5 grid w-full max-w-4xl grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2.5 rounded-b-[2rem] px-4 py-5 text-white sm:mb-6 sm:gap-4 sm:rounded-b-[2.4rem] sm:px-6 lg:px-8">
-        <TillarLogo badgeClassName="hidden sm:inline" className="shrink-0" />
-        <div className="min-w-0 text-right">
-          <p className="truncate text-[0.65rem] font-black uppercase tracking-[0.18em] text-cyan">
-            {gameLabel}
-          </p>
-          <p className="mt-1 flex items-center justify-end gap-1.5 text-xs font-bold text-white/70">
-            <span aria-hidden="true" className="shrink-0 text-cyan">
-              {categoryIcon}
-            </span>
-            <span className="truncate">{categoryLabel}</span>
-          </p>
-        </div>
-        <LanguageSelector />
-      </header>
-
-      <main className="safe-bottom mx-auto w-full max-w-4xl px-4 pb-8 sm:px-6">
+      <main className="safe-bottom mx-auto w-full max-w-4xl px-4 pb-8 pt-5 sm:px-6">
         <section className="animate-rise relative overflow-hidden rounded-[2.25rem] border border-white/80 bg-white p-5 shadow-[0_30px_90px_-38px_rgba(37,28,82,0.5)] sm:p-8 lg:p-10">
           <div className="absolute -right-24 -top-20 size-72 rounded-full bg-primary-soft blur-3xl" />
           <div className="relative grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-center">
             <div>
+              <p className="mb-3 flex flex-wrap items-center gap-2 text-xs font-bold text-muted">
+                <span>{gameLabel}</span>
+                <span aria-hidden="true">·</span>
+                <span aria-hidden="true">{categoryIcon}</span>
+                <span>{categoryLabel}</span>
+              </p>
               <span
                 className={cn(
                   "inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-black uppercase tracking-[0.12em]",

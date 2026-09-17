@@ -118,3 +118,10 @@ Until those contracts exist, adding guessed `fetch` URLs or a made-up database s
 3. Implement real accounts and two-user matches separately from `duel-demo`.
 4. Connect analytics callbacks to the approved transport.
 5. Run device/browser, keyboard, screen-reader, network-failure, and reconnect QA against the production environment.
+
+## Home embedding layout
+
+The home page omits the branded top header and the TILLAR GAMES eyebrow
+for iframe integration. The language selector sits in the upper-right corner of the robot
+intro card, independently of the game selection heading. Game and result screens also omit the branded header and language selector.
+The finish-game button remains within the game content with its existing confirmation flow.

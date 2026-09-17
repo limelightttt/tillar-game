@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { AppHeader } from "@/widgets/app-header";
 import { GameIntro } from "@/widgets/game-intro";
 import { GameSetup } from "@/features/configure-game";
 import { GameProductSelector } from "@/features/select-game";
@@ -45,8 +44,7 @@ export function HomePage() {
 
   return (
     <div className="app-noise min-h-dvh">
-      <AppHeader />
-      <main className="safe-bottom mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
+      <main className="safe-bottom mx-auto w-full max-w-6xl px-4 pt-5 pb-10 sm:px-6 lg:px-8">
         <GameProductSelector value={gameId} onChange={setGameId} />
         <div className="animate-rise grid items-start gap-5 lg:grid-cols-2 lg:items-stretch lg:gap-6">
           <GameIntro gameId={gameId} />

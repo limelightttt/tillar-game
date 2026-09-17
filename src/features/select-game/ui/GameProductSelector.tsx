@@ -22,9 +22,6 @@ export function GameProductSelector({ onChange, value }: GameProductSelectorProp
     <section aria-labelledby="game-product-title" className="mb-5 lg:flex lg:items-center lg:gap-8">
       <div className="mb-3 lg:mb-0 lg:shrink-0">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.16em] text-primary">
-            {t("selector.eyebrow")}
-          </p>
           <h1
             className="mt-0.5 text-xl font-black tracking-[-0.04em] text-foreground sm:text-2xl"
             id="game-product-title"

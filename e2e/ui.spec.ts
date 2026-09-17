@@ -18,6 +18,8 @@ test("home keeps the TILLAR draft responsive", async ({ page }) => {
 
   await expect(page.getByRole("heading", { name: "Выбери игру" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Как играем?" })).toBeVisible();
+  await expect(page.getByRole("banner")).toHaveCount(0);
+  await expect(page.getByText("TILLAR GAMES", { exact: true })).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
   await expect(page).toHaveScreenshot("home-tillar-draft.png", { fullPage: true });
 
@@ -56,13 +58,14 @@ test("word-game selection starts the existing word flow", async ({ page }) => {
   await expectNoHorizontalOverflow(page);
 });
 
-test("two-picture result keeps the branded UI flow", async ({ page }) => {
+test("two-picture result keeps the header-free UI flow", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Начать игру", exact: true }).click();
   await page.getByRole("button", { name: "Завершить игру" }).click();
   await page.getByRole("button", { name: "Завершить", exact: true }).click();
 
-  await expect(page.getByLabel("TILLAR Games")).toBeVisible();
+  await expect(page.getByRole("banner")).toHaveCount(0);
+  await expect(page.getByRole("combobox")).toHaveCount(0);
   await expect(page.getByText("2 картинки", { exact: true })).toBeVisible();
   await expect(page.getByText("Сессия завершена", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Играть ещё" })).toBeVisible();
@@ -70,14 +73,15 @@ test("two-picture result keeps the branded UI flow", async ({ page }) => {
   await expectNoHorizontalOverflow(page);
 });
 
-test("word-game result keeps the branded UI flow", async ({ page }) => {
+test("word-game result keeps the header-free UI flow", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: /Четыре картинки/ }).click();
   await page.getByRole("button", { name: "Начать игру", exact: true }).click();
   await page.getByRole("button", { name: "Завершить игру" }).click();
   await page.getByRole("button", { name: "Завершить", exact: true }).click();
 
-  await expect(page.getByLabel("TILLAR Games")).toBeVisible();
+  await expect(page.getByRole("banner")).toHaveCount(0);
+  await expect(page.getByRole("combobox")).toHaveCount(0);
   await expect(page.getByText("4 картинки / слово", { exact: true })).toBeVisible();
   await expect(page.getByText("Сессия завершена", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Играть ещё" })).toBeVisible();
@@ -90,8 +94,8 @@ test("language selection stays consistent through an active game", async ({ page
   await page.getByRole("combobox", { name: "Язык интерфейса" }).selectOption("en");
   await page.getByRole("button", { name: "Start game", exact: true }).click();
 
-  await expect(page.getByText("Question 1", { exact: true })).toBeVisible();
-  await expect(page.getByRole("combobox", { name: "Interface language" })).toHaveValue("en");
+  await expect(page.getByRole("banner")).toHaveCount(0);
+  await expect(page.getByRole("combobox")).toHaveCount(0);
   await page.getByRole("button", { name: "Finish game" }).click();
   await expect(page.getByRole("heading", { name: "Finish the session?" })).toBeVisible();
   await expectNoHorizontalOverflow(page);

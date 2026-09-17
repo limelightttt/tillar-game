@@ -10,6 +10,7 @@ import {
 import { type GameProductId } from "@/entities/game-product";
 
 import { type TranslationKey, useI18n } from "@/shared/config";
+import { LanguageSelector } from "@/shared/ui";
 import { RobotSequence } from "@/shared/ui/robot-sequence";
 
 import "./game-intro.css";
@@ -73,9 +74,12 @@ export function GameIntro({ gameId }: GameIntroProps) {
         key={gameId}
       >
         <div>
-          <div className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-white/75 backdrop-blur lg:mb-5">
-            <span className="size-2 shrink-0 rounded-full bg-cyan shadow-[0_0_16px_rgba(18,203,228,0.9)]" />
-            <span className="truncate">{t(content.eyebrowKey)}</span>
+          <div className="mb-6 flex items-center justify-between gap-3 lg:mb-5">
+            <div className="inline-flex min-w-0 items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-white/75 backdrop-blur">
+              <span className="size-2 shrink-0 rounded-full bg-cyan shadow-[0_0_16px_rgba(18,203,228,0.9)]" />
+              <span className="truncate">{t(content.eyebrowKey)}</span>
+            </div>
+            <LanguageSelector />
           </div>
 
           <h1 className="text-balance max-w-xl text-[clamp(2.5rem,6vw,4.5rem)] font-black leading-[0.94] tracking-[-0.06em] lg:text-5xl lg:leading-none xl:text-[3.25rem]">
